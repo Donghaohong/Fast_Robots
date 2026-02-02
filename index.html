@@ -75,7 +75,7 @@
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                             </div>
-                            <img class="img-fluid" src="assets/img/portfolio/cabin.png" alt="..." />
+                            <img class="img-fluid" src="assets/img/portfolio/cover.jpg" alt="Lab 1 Artemis Board" />
                         </div>
                     </div>
                     <!-- Portfolio Item 2-->
@@ -136,27 +136,487 @@
         <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-header border-0">
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body text-center pb-5">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
-                                    <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Log Cabin</h2>
-                                    <!-- Icon Divider-->
+
+                                    <!-- Portfolio Modal - Title -->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">
+                                        Lab 1: Artemis and Bluetooth
+                                    </h2>
+
+                                    <!-- Icon Divider -->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
                                         <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                                         <div class="divider-custom-line"></div>
                                     </div>
-                                    <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/cabin.png" alt="..." />
-                                    <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+                                        
+                                    <p class="mb-5">
+                                        The goal is to program the Artemis board and establish reliable bidirectional
+                                        Bluetooth Low Energy (BLE) communication between the board and a laptop
+                                        for command execution and data exchange.
+                                    </p>
+
+                                    <h2 class="text-secondary text-uppercase mt-5 text-start">Lab 1A</h2>
+                                   
+                                    <div class="text-start">   
+                                    <h4 class="mt-3 mb-3">Prelab</h4>   
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/prelab_arduino_install.png"
+                                        alt="Arduino IDE SparkFun Apollo3 installation output"> 
+                                    <p class="mb-4">
+                                        I set up the Arduino IDE and installed the SparkFun Apollo3 board support package.
+                                    </p>
+                                    
+                                    <h4 class="mt-4">Task 1: Setup</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task1_board_port.png"
+                                        alt="Arduino IDE board and port selection">
+
+                                    <p class="mb-4">
+                                        I connected the Artemis board to the computer and selected the RedBoard Artemis Nano
+                                        and the correct USB serial port in the Arduino IDE.
+                                    </p>
+
+
+                                    <h4 class="mt-4">Task 2: Blink</h4>
+                                    
+                                    <p class="mb-4">
+                                    The onboard LED repeatedly turned on and off at a fixed interval, producing a steady blinking pattern.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 3: Serial</h4>
+
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/fNii27Ds0Kg?si=ysMutk5xZicRrKGu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <p class="mb-4">
+                                    Text input from the computer was received by the Artemis board and printed in the Serial Monitor, confirming successful serial communication.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 4: AnalogRead</h4>
+
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/w2-s75LNoZI?si=AU4ZYThbRW36K8R3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <p class="mb-4">
+                                    When the Artemis board was held by hand, the reported temperature values gradually increased as heat was transferred from the hand to the board. Specifically, the temperature reading rose from approximately 33956 to 34182 over time, demonstrating that the onboard temperature sensor responded to changes in environmental temperature.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 5: PDM</h4>
+
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/w2-s75LNoZI?si=AU4ZYThbRW36K8R3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <p class="mb-4">
+                                    When whistling near the Artemis board, the detected frequency exhibited a sudden increase in magnitude. Once the whistling stopped, the frequency values returned to their baseline levels, indicating that the onboard PDM microphone correctly responded to changes in sound input.
+                                    </p>
+
+                                    <h4 class="text-secondary text-uppercase mt-5">Additional Task (5000-level)</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/additional_note_detect.png"
+                                        alt="Code snippet for detecting C5/D5/E5 based on loudest frequency">
+
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/w2-s75LNoZI?si=AU4ZYThbRW36K8R3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <p class="mb-4">
+                                        For the 5000-level additional task, I extended the PDM + FFT example to detect specific tones by
+                                        finding the dominant frequency peak and comparing it against three target notes (C5, D5, and E5)
+                                        within a small tolerance. To generate known test tones, I downloaded an app called <strong>Tuner T1</strong>,
+                                        which can play pure tones at user-specified frequencies. When playing the corresponding frequencies,
+                                        the Artemis code correctly reported <strong>C5</strong>, <strong>D5</strong>, and <strong>E5</strong> over serial,
+                                        confirming that the frequency detection logic worked as intended.
+                                    </p>
+
+                                    <h2 class="text-secondary text-uppercase mt-5">Lab 1B</h2>
+
+                                    <h4 class="mt-4">Prelab</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/prelab_python_install.png"
+                                        alt="Python installation verification in terminal">
+
+                                    <p class="mb-4">
+                                        Before starting the lab, I verified that Python was correctly installed on my system by launching the Python interpreter from the terminal. This confirmed that a suitable Python environment was available for running the host-side BLE scripts required for the experiment.
+                                    </p>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/prelab_virtualenv.png"
+                                        alt="Fast Robots BLE virtual environment activation">
+
+                                    <p class="mb-4">
+                                        I then activated the provided Fast Robots BLE virtual environment, which contains the necessary dependencies for Bluetooth communication with the Artemis board.
+                                    </p>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/prelab_jupyter_launch.png"
+                                        alt="Jupyter Notebook launcher with BLE project directory">
+
+                                    <p class="mb-4">
+                                        Finally, I launched Jupyter Notebook and confirmed that the BLE project directory and Python kernel were correctly loaded.
+                                    </p>
+
+                                    <h4 class="mt-4">Configurations</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/config_mac_address.png"
+                                        alt="BLE MAC address printed in Arduino serial monitor">
+
+                                    <p class="mb-4">
+                                        After uploading the <code>ble_arduino.ino</code> sketch to the Artemis Nano board, the device began advertising over BLE and printed its MAC address to the serial monitor. This MAC address was then copied into the <code>connection.yaml</code> file by replacing the <code>artemis_address</code> field, allowing the host computer to identify and connect to the correct Artemis device.
+                                    </p>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/config_uuid_generation.png"
+                                        alt="UUID generated using Python uuid4()">
+
+                                    <p class="mb-4">
+                                        I generated a unique BLE service UUID using a Python command. This UUID was used to define a custom
+                                        BLE service for communication between the Artemis board and the host computer.
+                                    </p>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab1/config_ble_arduino_uuid.png"
+                                                alt="BLE service UUID defined in ble_arduino.ino">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab1/config_connection_yaml_uuid.png"
+                                                alt="Matching BLE service UUID in connection.yaml">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4">
+                                        The generated UUID was then inserted into both the <code>ble_arduino.ino</code> firmware and the
+                                        <code>connection.yaml</code> configuration file on the host side. Ensuring that the BLE service and
+                                        characteristic UUIDs matched on both sides allowed the Python scripts to successfully discover
+                                        and communicate with the Artemis board.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 1: ECHO</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task1_echo_arduino.png"
+                                        alt="Arduino ECHO command handler builds a response string and writes it to the BLE characteristic">
+
+                                    <p class="mb-4">
+                                        On the Artemis side, the <code>ECHO</code> command extracts the incoming string and sends it backover BLE by writing a formatted response to the string characteristic.
+                                    </p>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task1_echo_jupyter.png"
+                                        alt="Jupyter sends an ECHO command and receives the echoed string over BLE">
+
+                                    <p class="mb-4">
+                                        From Jupyter, I sent an <code>ECHO</code> command and successfully received the same string in theresponse, confirming reliable bidirectional BLE communication.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 2: SEND_THREE_FLOATS</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task2_send_three_floats_arduino.png"
+                                        alt="Arduino handling SEND_THREE_FLOATS command">
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task2_send_three_floats_jupyter.png"
+                                        alt="Jupyter sending three floats over BLE">
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task2_send_three_floats_serial.png"
+                                        alt="Serial monitor showing received floats">
+
+                                    <p class="mb-4">
+                                    For this task, I implemented a <code>SEND_THREE_FLOATS</code> command to transmit three floating-point values from the host
+                                    computer to the Artemis board over BLE. On the Arduino side, the command handler sequentially parses three float values
+                                    from the incoming command string using <code>robot_cmd.get_next_value()</code> and prints them to the serial monitor for verification.
+                                    From Jupyter, I sent the command with three floats encoded as a single string, and the Artemis board correctly received
+                                    and decoded all three values, confirming reliable multi-parameter data transmission over BLE.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 3: GET_TIME_MILLIS</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task3_get_time_arduino.png"
+                                        alt="Arduino code handling GET_TIME_MILLIS command">
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task3_get_time_jupyter.png"
+                                        alt="Jupyter Notebook GET_TIME_MILLIS result">
+
+                                    <p class="mb-4">
+                                    On the Arduino side, a <code>GET_TIME_MILLIS</code> command was implemented to return the current value of
+                                    <code>millis()</code>, representing the elapsed time since startup. The value was packaged as a string and
+                                    sent back over BLE. From Jupyter, the command was issued and the returned timestamp
+                                    (e.g., <code>T:285136</code>) was successfully received, verifying correct BLE communication.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 4: Notification Handler</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task4_notification_code.png"
+                                        alt="Python notification handler for BLE timestamp">
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task4_notification_output.png"
+                                        alt="Timestamp printed via BLE notification">
+
+                                    <p class="mb-4">
+                                    On the Python side, a notification handler was registered for the RX_STRING characteristic.
+                                    The handler converts incoming byte arrays into strings and parses messages starting with
+                                    <code>"T:"</code> as timestamps. Once notifications were enabled, the Artemis board was able
+                                    to asynchronously send time data, which was immediately received and printed in Jupyter
+                                    without explicitly polling for responses.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 5: Time Loop</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task5_time_loop_arduino.png"
+                                        alt="Arduino TIME_LOOP sends timestamps in a while loop">
+
+                                    <p class="mb-3">
+                                    In this method, the Artemis continuously reads the current timestamp (ms) inside a <code>while</code> loop and
+                                    immediately transmits it to the laptop over BLE on every iteration.
+                                    On the host side, I used a notification callback to receive and parse the incoming <code>T:&lt;millis&gt;</code> messages in real time.
+                                    </p>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task5_time_loop_jupyter_head.png"
+                                        alt="Jupyter notification handler and the first part of received timestamps">
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task5_time_loop_jupyter_tail.png"
+                                        alt="Tail of received timestamp stream (end snippet)">
+
+                                    <p class="mb-2"><strong>Pros (real-time streaming):</strong></p>
+                                    <ul class="mb-3">
+                                    <li>Low latency — timestamps arrive at the laptop almost immediately.</li>
+                                    <li>Simple and intuitive implementation, convenient for debugging and live inspection.</li>
+                                    <li>No need to buffer a large dataset on the microcontroller (low RAM usage).</li>
+                                    </ul>
+
+                                    <p class="mb-2"><strong>Cons (real-time streaming):</strong></p>
+                                    <ul class="mb-3">
+                                    <li>Throughput is limited by BLE bandwidth and host-side processing.</li>
+                                    <li>At higher rates, repeated timestamps and/or dropped messages can occur.</li>
+                                    <li>BLE sending + string formatting adds overhead and slows down the sampling loop.</li>
+                                    </ul>
+
+                                    <p class="mb-4">
+                                    In my test, the board streamed data for about <strong>3 s</strong> and I received <strong>214</strong> timestamps.
+                                    Each message was about <strong>10 bytes</strong>, so the effective rate was
+                                    <strong>214 / 3 ≈ 71 msg/s</strong>, i.e., approximately <strong>71 × 10 ≈ 710 bytes/s</strong>.
+                                    (The timestamp output was long, so I only included the beginning and the end of the stream.)
+                                    </p>
+
+                                    <h4 class="mt-4">Task 6: Time Array</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task6_send_time_data_arduino.png"
+                                        alt="Arduino TIME_ARRAY implementation with buffer overflow protection">
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task6_time_array_jupyter.png"
+                                        alt="Jupyter receives time array and prints total count">
+
+                                    <p class="mb-4">
+                                    In this task, the Artemis board first collected timestamps into a local array for a fixed duration
+                                    (100 ms) and then transmitted the buffered data to the computer over BLE. On the host side, a
+                                    notification handler parsed each <code>T:&lt;millis&gt;</code> message and appended the values to a Python list;
+                                    in this run, a total of <strong>2094</strong> timestamps were received.
+                                    </p>
+
+                                    <p class="mb-4">
+                                    To prevent buffer overflow on the microcontroller, I added a simple guard:
+                                    before writing into the timestamp array, the code checks
+                                    <code>if (time_buf_len &lt; size)</code>. If the buffer reaches its maximum capacity, no additional samples are
+                                    stored, ensuring the firmware never writes past the allocated array bounds.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 7: Temperature Array</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task7_arduino_temp_array.png"
+                                        alt="Arduino code collecting timestamp and temperature arrays and sending over BLE">
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task7_jupyter_temp_handler.png"
+                                        alt="Jupyter notification handler parsing Time(ms) and Temp(F) messages from BLE">
+
+                                    
+                                    <p class="mb-4">
+                                    For this task, the Artemis collected paired <strong>timestamp</strong> and <strong>temperature</strong> readings in arrays for a fixed duration,
+                                    then sent the buffered data to the laptop over BLE. On the Python side, a notification handler parsed each message in the format
+                                    <code>Time(ms):...,Temp(F):...</code> and appended the values into <code>timestamps</code> and <code>temps</code> lists for later analysis.
+                                    This approach separates data acquisition from transmission, allowing the microcontroller to sample the sensor continuously
+                                    while the host computer focuses on parsing and processing the received data.
+                                    </p>
+
+                                    <h4 class="mt-4">Task 8: Comparison between the Two Methods</h4>
+
+                                    <div class="text-start">
+                                    <p class="mb-3 text-start">
+                                        <strong>Method 1 (Task 5): real-time streaming.</strong> In this approach, the Artemis continuously reads the current timestamp (ms) inside a
+                                        <code>while</code> loop and immediately transmits each sample to the laptop over BLE. On the host side, a notification callback receives and
+                                        processes the data in real time.
+                                        <br><br>
+                                        <strong>Pros:</strong> low latency and near real-time visibility; straightforward implementation that is convenient for debugging and monitoring;
+                                        minimal RAM usage since data is not buffered on the microcontroller.
+                                        <br>
+                                        <strong>Cons:</strong> throughput is limited by BLE and host-side processing; at high sampling rates, repeated timestamps or dropped messages can occur;
+                                        BLE transmission and string formatting overhead slows down the loop execution.
+                                        <br><br>
+                                        <strong>Method 2 (Task 6/7): local buffering then batch transfer.</strong> In this approach, the Artemis does not communicate over BLE during sampling.
+                                        Instead, it stores timestamps (and sensor data) in local arrays, and only after the sampling window ends does it send the buffered data to the laptop
+                                        for parsing and analysis.
+                                        <br><br>
+                                        <strong>Pros:</strong> faster sampling because the loop avoids BLE overhead; better suited for short bursts of high-frequency data collection; improved
+                                        reliability because samples are stored locally before transmission.
+                                        <br>
+                                        <strong>Cons:</strong> no real-time visibility during sampling (added latency); buffer size is constrained by available RAM; requires extra logic to manage
+                                        the buffer and the send-back process.
+                                        <br><br>
+                                        <strong>When to use which:</strong> If you need real-time monitoring, debugging, or online control, Method 1 is preferable due to its low latency and
+                                        simplicity. If you need high-rate sampling for offline analysis or want to maximize data completeness, Method 2 is preferable because sampling is almost
+                                        unaffected by BLE communication overhead (although the upload phase is still limited by BLE throughput).
+                                    </p>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task8_timearray_rate.png"
+                                        alt="Task 6 sampling rate result in Jupyter">
+
+                                    <p class="mb-3 text-start">
+                                        <strong>Sampling speed (Method 2):</strong> Over a 0.1 s sampling window, the board recorded 1812 timestamps, which corresponds to
+                                        <code>1812 / 0.1 = 18120 samples/s</code>. If we approximate each sample message as ~10 bytes, the implied data rate is
+                                        <code>18120 × 10 ≈ 181200 bytes/s</code>.
+                                    </p>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/task8_ram_usage.png"
+                                        alt="Arduino compile output showing global memory usage">
+
+                                    <p class="mb-4 text-start">
+                                        <strong>How much can be buffered without exhausting RAM?</strong> The Artemis board has 384 kB RAM:
+                                        <code>384 × 1024 = 393,216 bytes</code>. The compiled output shows global variables use <code>54,152 bytes</code>, leaving
+                                        <code>339,064 bytes</code> available.
+                                        <br><br>
+                                        <strong>Case A (Task 6, timestamps only):</strong> one <code>unsigned long</code> timestamp is 4 bytes, so approximately
+                                        <code>339,064 / 4 ≈ 84,766 timestamps</code>.
+                                        <br>
+                                        <strong>Case B (Task 7, timestamp + temperature):</strong> timestamp 4 bytes + temperature float 4 bytes = 8 bytes per record, so approximately
+                                        <code>339,064 / 8 ≈ 42,383 records</code>.
+                                    </p>
+                                    </div>
+
+                                    <h2 class="text-secondary text-uppercase mt-5 text-start">Additional Task (5000 - Level Students)</h2>
+                                    <h4 class="mt-3 text-start">Task 1: Effective Data Rate And Overhead</h4>
+
+                                    <div class="text-start">
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/add_task1_reply_nb_arduino.png"
+                                        alt="Arduino REPLY_NB implementation">
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/add_task1_jupyter_rate_calc.png"
+                                        alt="Jupyter code for RTT and data rate estimation">
+
+                                    <p class="mb-3 text-justify">
+                                        In this experiment, the laptop sent a request to the Artemis using <code>REPLY_NB</code>, and the Artemis replied with a string
+                                        containing <code>n</code> characters. On the Python side, I recorded the send timestamp (<code>t_send</code>) and the first receive
+                                        timestamp from the notification callback, then estimated the round-trip time (RTT). Using the reply payload length (bytes) divided by
+                                        RTT (seconds), I computed an approximate effective data rate in <strong>bytes/s</strong>.
+                                    </p>
+
+                                    <p class="mb-4 text-justify">
+                                        The results show that many small packets introduce significant overhead: RTT stays roughly constant (~90–93 ms) while payload size increases,
+                                        so the effective throughput rises as the reply becomes larger. This suggests that using a larger reply amortizes the fixed BLE/processing overhead
+                                        and improves effective data rate.
+                                    </p>
+
+                                    <div class="table-responsive mb-4">
+                                        <table class="table table-striped align-middle">
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">Reply length (bytes)</th>
+                                            <th scope="col">RTT (ms)</th>
+                                            <th scope="col">Estimated data rate (bytes/s)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>5</td>   <td>91.429</td> <td>54.687</td></tr>
+                                            <tr><td>10</td>  <td>91.838</td> <td>108.888</td></tr>
+                                            <tr><td>15</td>  <td>89.566</td> <td>167.474</td></tr>
+                                            <tr><td>20</td>  <td>91.469</td> <td>218.652</td></tr>
+                                            <tr><td>25</td>  <td>90.652</td> <td>275.781</td></tr>
+                                            <tr><td>30</td>  <td>91.467</td> <td>327.986</td></tr>
+                                            <tr><td>35</td>  <td>91.816</td> <td>381.196</td></tr>
+                                            <tr><td>40</td>  <td>91.779</td> <td>435.828</td></tr>
+                                            <tr><td>120</td> <td>92.842</td> <td>1292.520</td></tr>
+                                        </tbody>
+                                        </table>
+                                    </div>
+
+                                    <img class="img-fluid rounded mb-2"
+                                        src="assets/img/lab1/add_task1_datarate_plot.png"
+                                        alt="Data rate vs reply size plot">
+
+                                    <p class="mb-4 text-justify">
+                                        The plot above summarizes the trend: with a roughly constant RTT, larger replies achieve higher effective throughput. Therefore,
+                                        if the application can tolerate buffering (or sending fewer, larger packets), it can significantly reduce the per-message overhead
+                                        and improve overall BLE efficiency.
+                                    </p>
+                                    </div>
+
+                                    <h4 class="mt-4">Task 2: Reliability</h4>
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/reliability_arduino.png"
+                                        alt="Artemis reliability test Arduino code">
+
+                                    <img class="img-fluid rounded mb-3"
+                                        src="assets/img/lab1/reliability_jupyter.png"
+                                        alt="Jupyter notebook receiving reliability test data">
+
+                                    <p class="mb-4">
+                                    In this task, the Artemis board was commanded to transmit a sequence of
+                                    <strong>1000 monotonically increasing integers</strong> over BLE as quickly as possible.
+                                    On the microcontroller side, the values were sent in a tight loop using BLE
+                                    notifications. On the host computer, a Python notification handler parsed each
+                                    incoming message and stored the received integers in a list.
+                                    </p>
+
+                                    <p class="mb-4">
+                                    After the transmission completed, the received values were compared against
+                                    the expected range <code>[0, 999]</code>. As shown in the results, the computer successfully
+                                    received all <strong>1000 messages</strong>, and the set difference check confirmed that
+                                    <strong>no data was missing</strong>.
+                                    </p>
+
+                                    <p class="mb-4">
+                                    This experiment indicates that at the tested transmission rate, the BLE link
+                                    between the Artemis board and the host computer was reliable, and the host was
+                                    able to process all incoming notifications without packet loss. 
+                                    </p>
+
+                                    <h4 class="mt-4">Discussion</h4>
+
+                                    <p class="mb-4">
+                                    In this lab, I learned how to configure BLE services and characteristics on the Artemis
+                                    board and how to exchange data reliably with a host computer using commands and notifications.
+                                    I also observed how BLE communication overhead directly impacts achievable sampling rates.
+                                    </p>
+
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
                                     </button>
+
                                 </div>
                             </div>
                         </div>
@@ -164,6 +624,8 @@
                 </div>
             </div>
         </div>
+
+
         <!-- Portfolio Modal 2-->
         <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" aria-labelledby="portfolioModal2" aria-hidden="true">
             <div class="modal-dialog modal-xl">
