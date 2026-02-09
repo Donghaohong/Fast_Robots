@@ -11052,3 +11052,24 @@ html {
 .custom-navbar {
   background-color: #1f2933 !important;
 }
+
+.sample-data-left {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left !important;
+}
+
+/* 标题也强制左对齐 */
+.sample-data-left h2,
+.sample-data-left h3 {
+  text-align: left !important;
+}
+
+/* 所有正文段落 */
+.sample-data-left p,
+.sample-data-left ul,
+.sample-data-left li {
+  text-align: left !important;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}

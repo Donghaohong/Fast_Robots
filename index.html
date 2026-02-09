@@ -15,6 +15,16 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <script>
+        MathJax = {
+            tex: {
+            inlineMath: [['\\(', '\\)'], ['$', '$']],
+            displayMath: [['\\[', '\\]'], ['$$', '$$']]
+            }
+        };
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -84,7 +94,7 @@
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                             </div>
-                            <img class="img-fluid" src="assets/img/portfolio/cake.png" alt="..." />
+                            <img class="img-fluid" src="assets/img/portfolio/lab2.jpg" alt="..." />
                         </div>
                     </div>
                     <!-- Portfolio Item 3-->
@@ -614,6 +624,8 @@
                                     I also observed how BLE communication overhead directly impacts achievable sampling rates.
                                     </p>
 
+                                    </div>
+
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
@@ -638,17 +650,612 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Tasty Cake</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 2: IMU</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
                                         <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                                         <div class="divider-custom-line"></div>
                                     </div>
-                                    <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/cake.png" alt="..." />
-                                    <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+                                    <p class="mb-4">The purpose of this lab is to add the IMU to your robot, start running the Artemis+sensors from a battery, and record a stunt on your RC robot.</p>
+                                    
+                                    <h4 class="mt-5 text-start">Setup the IMU</h4>
+
+                                    <p class="mb-4 text-start">
+                                        This experiment utilizes the SparkFun 9DoF IMU Breakout (ICM-20948), connected to the Artemis development board via an I²C interface. The Artemis board provides both power supply and communication.
+                                    </p>
+
+                                    <img class="img-fluid rounded mb-4"
+                                         src="assets/img/lab2/imu_wiring.jpg"
+                                         alt="IMU connected to Artemis board via I2C" />
+
+                                    <p class="mb-4 text-start">
+                                        To verify that the hardware connections and software environment were correctly configured,
+                                        the example program <code>Example1_Basics</code> from the SparkFun ICM-20948 Arduino library was executed.
+                                        The example outputs the following sensor data:
+                                    </p>
+
+                                    <ul class="text-start mb-4">
+                                        <li><strong>Accelerometer:</strong> Acc (mg) [ax, ay, az]</li>
+                                        <li><strong>Gyroscope:</strong> Gyr (DPS) [gx, gy, gz]</li>
+                                        <li><strong>Magnetometer:</strong> Mag (uT) [mx, my, mz]</li>
+                                        <li><strong>Temperature:</strong> Tmp (°C)</li>
+                                    </ul>
+
+                                    <img class="img-fluid rounded mb-4"
+                                         src="assets/img/lab2/imu_serial_output.png"
+                                         alt="IMU serial output" />
+
+                                    <h4 class="mt-5 text-start">AD0_VAL Definition</h4>
+
+                                <p class="mb-4 text-start">
+                                    <code>AD0_VAL</code> represents the logic level of the AD0 pin on the ICM-20948 sensor and is used
+                                    to select the I<sup>2</sup>C communication address. Since the ADR jumper on the breakout board
+                                    is left unconnected by default, <code>AD0_VAL</code> was set to 1 in this experiment to match
+                                    the corresponding I<sup>2</sup>C address configuration.
+                                </p>
+
+                                <h4 class="mt-5 text-start">Accelerometer and Gyroscope Data Characteristics</h4>
+
+                                <p class="mb-4 text-start">
+                                    The accelerometer measures the combined effect of linear acceleration and gravity. When the
+                                    breakout board is stationary or slowly rotated, the measured values mainly reflect the gravity
+                                    components along each axis. For example, when the board is rotated by 180 degrees, an axis that
+                                    originally measured approximately +1 g will measure approximately −1 g, while the values on the
+                                    other axes change according to the board orientation. During rapid motion or acceleration, the
+                                    accelerometer readings exhibit noticeable fluctuations.
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    The gyroscope measures angular velocity. When the system is stationary, the output is close to
+                                    zero. During rotation or turning, clear angular velocity changes are observed. After motion
+                                    stops, the readings return close to zero, with only small amounts of noise and bias remaining.
+                                </p>
+
+                                <h4 class="mt-5 text-start">Visual Indicator Verification</h4>
+
+                                <p class="mb-4 text-start">
+                                    To verify that the program was running correctly on the Artemis, the onboard LED was used as a
+                                    visual indicator and configured to blink at a fixed time interval. Normal blinking of the LED
+                                    indicates that the program is executing successfully.
+                                </p>
+
+                                <iframe width="485" height="862" src="https://www.youtube.com/embed/1wyoZjb2tvA" title="LAB2 Visual Indication" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                <h4 class="mt-5 text-start">Accelerometer</h4>
+
+                                <h5 class="mt-3 text-start">Pitch / Roll Static Pose Verification</h5>
+
+                                <p class="mb-4 text-start">
+                                    To evaluate the performance of the accelerometer in static orientation estimation,
+                                    the IMU was placed in four different static poses: Pitch = +90°, Roll = +90°,
+                                    Roll = −90°, and Pitch = −90°. For each configuration, the serial monitor output
+                                    was observed in real time to verify the corresponding accelerometer readings.
+                                </p>
+
+                                <div class="row text-center">
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_90.png"
+                                        alt="Pitch +90 degrees" />
+                                    <p class="mt-2"><strong>Figure 1.</strong> Pitch = +90°</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_90.png"
+                                        alt="Roll +90 degrees" />
+                                    <p class="mt-2"><strong>Figure 2.</strong> Roll = +90°</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_-90.png"
+                                        alt="Roll -90 degrees" />
+                                    <p class="mt-2"><strong>Figure 3.</strong> Roll = −90°</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_-90.png"
+                                        alt="Pitch -90 degrees" />
+                                    <p class="mt-2"><strong>Figure 4.</strong> Pitch = −90°</p>
+                                </div>
+
+                                <h4 class="mt-5 text-start">Accelerometer Accuracy and Two-Point Calibration</h4>
+
+                                <p class="mb-4 text-start">
+                                    To evaluate the accelerometer accuracy, a two-point calibration was performed on the Z-axis
+                                    using static measurements at +1g and −1g.
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    From the experimental data, the measured accelerometer outputs were:
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    <em>m</em><sub>+</sub> = 1024.36 mg,&nbsp;&nbsp;
+                                    <em>m</em><sub>−</sub> = −988.54 mg
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    Ideally, these values should be +1000 mg and −1000 mg, respectively. The deviation indicates
+                                    the presence of sensor bias and scale error.
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    The bias <em>b</em> and scale factor <em>s</em> are computed as:
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    <em>b</em> = ( <em>m</em><sub>+</sub> + <em>m</em><sub>−</sub> ) / 2
+                                    = (1024.36 − 988.54) / 2 = 17.91 mg
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    <em>s</em> = 2000 / ( <em>m</em><sub>+</sub> − <em>m</em><sub>−</sub> )
+                                    = 2000 / (1024.36 − (−988.54)) ≈ 0.9936
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    The calibrated Z-axis acceleration is then given by:
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    <em>a</em><sub>z,cal</sub> = ( <em>a</em><sub>z,raw</sub> − 17.91 ) × 0.9936
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    The results show that the accelerometer exhibits a small bias and a scale error of less than 1%.
+                                    After calibration, the measured acceleration closely matches the expected ±1g values, which is
+                                    sufficient for reliable pitch and roll estimation under static or low-dynamic conditions.
+                                </p>
+
+                                <h4 class="mt-5 text-start">Accelerometer: Noise and Frequency-Domain Analysis (FFT)</h4>
+
+                                <p class="mb-4 text-start">
+                                    To analyze the noise characteristics of the accelerometer data, time-domain and frequency-domain
+                                    (FFT) analyses were performed on the pitch and roll angle signals under two conditions:
+                                    <strong>static (clean)</strong> and <strong>with artificially introduced disturbances (with noise)</strong>.
+                                </p>
+
+                                <div class="row text-center">
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_time_clean.png"
+                                        alt="Time domain pitch clean" />
+                                    <p class="mt-2"><strong>Figure 5.</strong> Time Domain Pitch (Clean)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_time_noise.png"
+                                        alt="Time domain pitch with noise" />
+                                    <p class="mt-2"><strong>Figure 6.</strong> Time Domain Pitch (With Noise)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_time_clean.png"
+                                        alt="Time domain roll clean" />
+                                    <p class="mt-2"><strong>Figure 7.</strong> Time Domain Roll (Clean)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_time_noise.png"
+                                        alt="Time domain roll with noise" />
+                                    <p class="mt-2"><strong>Figure 8.</strong> Time Domain Roll (With Noise)</p>
+                                </div>
+
+                                <p class="text-start">
+                                    From the FFT results, it can be observed that the primary energy of both
+                                    pitch and roll is concentrated in the low-frequency region (around
+                                    3–4&nbsp;Hz).
+                                </p>
+
+                                <p class="text-center">
+                                    \( \alpha = \dfrac{T}{T + RC}, \quad
+                                    T = \dfrac{1}{f_s}, \quad
+                                    RC = \dfrac{1}{2\pi f_c} \)
+                                </p>
+
+                                <p class="text-start">
+                                    With \( f_s = 283 \,\text{Hz} \) and \( f_c = 3 \,\text{Hz} \),
+                                </p>
+
+                                <p class="text-center">
+                                    \( \alpha \approx 0.062 \)
+                                </p>
+
+                                <div class="row text-center">
+
+                                    <div class="col-md-6 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab2/pitch_fft_clean.png"
+                                            alt="FFT pitch clean" />
+                                        <p class="mt-2"><strong>Figure 9.</strong> FFT Pitch (Clean)</p>
+                                    </div>
+
+                                    <div class="col-md-6 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab2/pitch_fft_noise.png"
+                                            alt="FFT pitch with noise" />
+                                        <p class="mt-2"><strong>Figure 10.</strong> FFT Pitch (With Noise)</p>
+                                    </div>
+
+                                    <div class="col-md-6 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab2/roll_fft_clean.png"
+                                            alt="FFT roll clean" />
+                                        <p class="mt-2"><strong>Figure 11.</strong> FFT Roll (Clean)</p>
+                                    </div>
+
+                                    <div class="col-md-6 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab2/roll_fft_noise.png"
+                                            alt="FFT roll with noise" />
+                                        <p class="mt-2"><strong>Figure 12.</strong> FFT Roll (With Noise)</p>
+                                    </div>
+                                </div>
+
+                                <div class="row text-center">
+                                <figure class="my-4">
+                                    <img
+                                        src="assets/img/lab2/complementary_filter_code.png"
+                                        alt="Complementary filter implementation code snippet"
+                                        class="img-fluid"
+                                    >
+                                </figure>
+
+                                <p class="mb-4 text-start">
+                                    From the results, it can be observed that after applying the low-pass filter,
+                                    the high-frequency jitter in both the pitch and roll signals is significantly
+                                    reduced, resulting in much smoother curves. When noise is introduced, the
+                                    filtering effect becomes even more pronounced, with spikes and random
+                                    fluctuations being effectively suppressed. At the same time, the filtered
+                                    signals are still able to follow the overall trend of the original attitude
+                                    changes, indicating that the cutoff frequency is not set too low.
+                                </p>
+
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_lpf_clean.png"
+                                        alt="Pitch Raw vs LPF (Clean)">
+                                    <p class="mt-2"><strong>Figure 13.</strong> Pitch: Raw vs LPF (Clean)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_lpf_noise.png"
+                                        alt="Pitch Raw vs LPF (With Noise)">
+                                    <p class="mt-2"><strong>Figure 14.</strong> Pitch: Raw vs LPF (With Noise)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_lpf_clean.png"
+                                        alt="Roll Raw vs LPF (Clean)">
+                                    <p class="mt-2"><strong>Figure 15.</strong> Roll: Raw vs LPF (Clean)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_lpf_noise.png"
+                                        alt="Roll Raw vs LPF (With Noise)">
+                                    <p class="mt-2"><strong>Figure 16.</strong> Roll: Raw vs LPF (With Noise)</p>
+                                </div>
+
+                                <ul class="text-start">
+                                    <li>
+                                        <strong>Lower cutoff frequency:</strong><br>
+                                        Produces a smoother output with better noise suppression. However, the
+                                        system response becomes slower, leading to noticeable lag during rapid
+                                        rotational motion.
+                                    </li>
+
+                                    <li class="mt-3">
+                                        <strong>Higher cutoff frequency:</strong><br>
+                                        Results in a faster response that can track rapid attitude changes more
+                                        easily, but introduces more high-frequency noise, causing increased
+                                        output fluctuations.
+                                    </li>
+                                </ul>
+
+                                <h4 class="mt-5 text-start">Gyroscope</h4>
+
+                                <p class="mb-3 text-start">
+                                    The angle estimation is based on the integration model introduced in class:
+                                </p>
+
+                                <p class="text-center mb-4">
+                                    \( \theta_g(t) = \theta_g(t - \Delta t) + \omega(t)\cdot \Delta t \)
+                                </p>
+
+                                <p class="mb-4 text-start">
+                                    Using the gyroscope angular velocity measurements, the pitch, roll, and yaw
+                                    angles are obtained through time integration.
+                                </p>
+
+                                <div class="row text-center">
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_acc_vs_gyro_clean.png"
+                                        alt="Pitch Acc vs Gyro Clean">
+                                    <p class="mt-2"><strong>Figure 17.</strong> Pitch: Accelerometer vs Gyroscope (Clean)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_acc_vs_gyro_noise.png"
+                                        alt="Pitch Acc vs Gyro With Noise">
+                                    <p class="mt-2"><strong>Figure 18.</strong> Pitch: Accelerometer vs Gyroscope (With Noise)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_acc_vs_gyro_clean.png"
+                                        alt="Roll Acc vs Gyro Clean">
+                                    <p class="mt-2"><strong>Figure 19.</strong> Roll: Accelerometer vs Gyroscope (Clean)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_acc_vs_gyro_noise.png"
+                                        alt="Roll Acc vs Gyro With Noise">
+                                    <p class="mt-2"><strong>Figure 20.</strong> Roll: Accelerometer vs Gyroscope (With Noise)</p>
+                                </div>
+
+                            </div>
+
+
+                                <p class="mb-3 text-start">
+                                    The following differences can be observed from the results:
+                                </p>
+
+                                <ul class="text-start mb-4">
+                                    <li>
+                                        <strong>Accelerometer</strong>
+                                        <ul>
+                                            <li>
+                                                Under static or low-dynamic conditions, pitch and roll can accurately
+                                                reflect the true orientation.
+                                            </li>
+                                            <li>
+                                                Highly sensitive to vibrations and external accelerations, resulting
+                                                in large noise and frequent spikes in the signal.
+                                            </li>
+                                            <li>
+                                                Exhibits significant angle fluctuations and reduced stability in
+                                                noisy environments.
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="mt-3">
+                                        <strong>Gyroscope</strong>
+                                        <ul>
+                                            <li>
+                                                Produces smooth and continuous angle changes, with good response to
+                                                short-term motion.
+                                            </li>
+                                            <li>
+                                                Maintains relatively low noise levels in both clean and noisy
+                                                conditions.
+                                            </li>
+                                            <li>
+                                                Due to the accumulation of integration error, the estimated angle
+                                                gradually drifts over time, even when the system is stationary.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <section style="text-align: left;">
+
+                                <p>
+                                    In this experiment, the complementary filter provided in the lecture was adopted
+                                    to fuse the gyroscope-integrated angle with the accelerometer-based attitude angle:
+                                </p>
+
+                                <p style="text-align: center;">
+                                    \[
+                                    \theta = (1 - \alpha)\,\theta_{\text{gyro}} + \alpha\,\theta_{\text{acc}}
+                                    \]
+                                </p>
+
+                                <p>
+                                    When only the accelerometer is used, both pitch and roll angles exhibit a large
+                                    number of spikes under noisy conditions, indicating high sensitivity to instantaneous
+                                    acceleration and external vibrations.
+                                </p>
+
+                                <p>
+                                    When only the gyroscope integration is used, the output is relatively smooth;
+                                    however, significant drift accumulates over time, causing the estimated angle
+                                    to gradually deviate from the true value.
+                                </p>
+
+                                <p>
+                                    By contrast, the complementary filter provides stable and smooth outputs in both
+                                    clean and noisy scenarios. High-frequency noise from the accelerometer is effectively
+                                    suppressed, while the long-term drift of the gyroscope is significantly corrected.
+                                </p>
+
+                                </section>
+
+
+                                <div class="row text-center">
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_cf_clean.png"
+                                        alt="Pitch: Acc vs Gyro vs CF (Clean)">
+                                    <p class="mt-2"><strong>Figure 21.</strong> Pitch: Acc vs Gyro vs CF (Clean)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/pitch_cf_noise.png"
+                                        alt="Pitch: Acc vs Gyro vs CF (With Noise)">
+                                    <p class="mt-2"><strong>Figure 22.</strong> Pitch: Acc vs Gyro vs CF (With Noise)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_cf_clean.png"
+                                        alt="Roll: Acc vs Gyro vs CF (Clean)">
+                                    <p class="mt-2"><strong>Figure 23.</strong> Roll: Acc vs Gyro vs CF (Clean)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded"
+                                        src="assets/img/lab2/roll_cf_noise.png"
+                                        alt="Roll: Acc vs Gyro vs CF (With Noise)">
+                                    <p class="mt-2"><strong>Figure 24.</strong> Roll: Acc vs Gyro vs CF (With Noise)</p>
+                                </div>
+
+                            </div>
+
+                            <div class="sample-data-left">
+
+                            <h2>Sample Data</h2>
+
+                            <h3>1) Speed of Sampling</h3>
+
+                            <p>
+                                To maximize the data acquisition rate, the main loop avoids blocking or
+                                waiting for the IMU. Instead, each loop iteration checks whether new IMU
+                                data are available (data ready). Data are read and stored only when new
+                                samples are detected.
+                            </p>
+
+                            <p>
+                                All debugging-related <code>delay()</code> and
+                                <code>Serial.print()</code> statements were removed to prevent serial
+                                communication from becoming a performance bottleneck.
+                            </p>
+
+                            <figure class="code-figure">
+                            <img
+                                src="assets/img/lab2/imu_ble_handler_code.png"
+                                alt="BLE IMU data parsing and logging code"
+                                class="img-fluid rounded"
+                            >
+                            </figure>
+
+
+                            <p>
+                                From a 5-second sampling window, <code>len(t) = 1608</code>,
+                                corresponding to an average sampling rate of:
+                            </p>
+
+                            <ul>
+                                <li><strong>f<sub>s</sub> ≈ 1608 / 5 ≈ 322 Hz (≈ 3.1 ms per sample)</strong></li>
+                            </ul>
+
+                            <p>
+                                Since the main loop runs faster than the IMU data update rate, this
+                                polling-based approach (“check data ready + log when available”) maximizes
+                                effective sampling while avoiding repeated reads of the same data frame.
+                            </p>
+
+                            <h3>2) Time-Stamped Data Storage</h3>
+
+                            <p>
+                                IMU data were stored in time-stamped arrays. Each record contains eight
+                                fields:
+                            </p>
+
+                            <p>
+                                <code>t, pitch_a, roll_a, pitch_g, roll_g, yaw_g, pitch_cf, roll_cf</code>
+                            </p>
+
+                            <p>
+                                The host computer receives the data via BLE notifications, parses the
+                                comma-separated values, and appends them to the corresponding arrays.
+                            </p>
+
+                            </div>
+
+                            <section class="text-start">
+
+                            <h4>3) Storage Structure and Data Type Selection (Design Choices)</h4>
+
+                            <p>
+                                <strong>Storage structure:</strong>
+                                A parallel multi-array design was adopted, where each variable is stored in
+                                an independent array. This structure simplifies post-processing in Python,
+                                such as individual plotting, FFT analysis, and filter comparison, while
+                                avoiding the parsing and indexing complexity associated with a single large
+                                structured array.
+                            </p>
+
+                            <p>
+                                <strong>Data types:</strong>
+                                Time stamps are stored as <code>int</code> values (millisecond resolution),
+                                while attitude angles are stored as <code>float</code>. This choice provides
+                                a good balance between numerical precision and memory usage.
+                            </p>
+
+                            <div class="text-start my-4">
+                            <img
+                                src="assets/img/lab2/arduino_memory_output.png"
+                                alt="Program memory usage and upload output"
+                                class="img-fluid"
+                            >
+                            </div>
+
+
+                            <p>
+                                Based on the compiler output, the program uses approximately
+                                <strong>187,424 bytes (19%)</strong> of Flash memory, and global variables
+                                occupy about <strong>117,880 bytes (29%)</strong> of RAM. This leaves
+                                approximately <strong>275,336 bytes</strong> of free RAM available for data
+                                logging. With a data format consisting of one timestamp (<code>int</code>)
+                                and multiple <code>float</code> values per sample, storing several seconds
+                                of IMU data in memory is feasible.
+                            </p>
+
+                            <hr>
+
+                            <h4>4) Five-Second Data Collection and BLE Transmission (5s over BLE)</h4>
+
+                            <p>
+                                The host computer sends the <code>START_IMU_LOG</code> command to initiate
+                                data recording. After a 5-second acquisition window, the
+                                <code>DUMP_IMU_LOG</code> command is issued to request data transmission.
+                            </p>
+
+                            <p>
+                                A total of <strong>1608</strong> time-stamped IMU samples were successfully
+                                received. The resulting plots span the time range from 0 to 5000 ms
+                                (Time vs. Sample Data Values), demonstrating that the system can reliably
+                                complete the full pipeline of data acquisition, buffering, BLE transmission,
+                                host-side parsing, and visualization within a 5-second window.
+                            </p>
+
+                            <img
+                            src="assets/img/lab2/time_vs_sample_data_values.png"
+                            alt="Time vs. Sample Data Values"
+                            style="display:block; margin:0; text-align:left; max-width:100%;"
+                            >
+                            </section>
+
+                            <h2 style="text-align:left; font-weight:600; margin:0 0 1rem 0;">
+                            Record a stunt!
+                            </h2>
+
+                            <iframe width="351" height="624" src="https://www.youtube.com/embed/3ai8t523qT4" title="Stunt" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                            <p>
+                            When the car impacts a wall at high speed, it rebounds and flips over, yet remains functional and can continue to operate.
+                            </p>
+
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
