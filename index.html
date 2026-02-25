@@ -103,7 +103,7 @@
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                             </div>
-                            <img class="img-fluid" src="assets/img/portfolio/circus.png" alt="..." />
+                            <img class="img-fluid" src="assets/img/portfolio/lab3_cover.jpg" alt="Lab 3 ToF Sensors" />
                         </div>
                     </div>
                     <!-- Portfolio Item 4-->
@@ -817,138 +817,124 @@
                                 <h4 class="mt-5 text-start">Accelerometer: Noise and Frequency-Domain Analysis (FFT)</h4>
 
                                 <p class="mb-4 text-start">
-                                    To analyze the noise characteristics of the accelerometer data, time-domain and frequency-domain
-                                    (FFT) analyses were performed on the pitch and roll angle signals under two conditions:
-                                    <strong>static (clean)</strong> and <strong>with artificially introduced disturbances (with noise)</strong>.
+                                To analyze the noise characteristics of the accelerometer data, time-domain and frequency-domain
+                                (FFT) analyses were performed on the pitch and roll angle signals under two conditions:
+                                <strong>static (clean)</strong> and <strong>with artificially introduced disturbances (with noise)</strong>.
                                 </p>
 
+                                <!-- Time-domain plots: Figure 5-8 -->
                                 <div class="row text-center">
-
                                 <div class="col-md-6 mb-4">
-                                    <img class="img-fluid rounded"
-                                        src="assets/img/lab2/pitch_time_clean.png"
-                                        alt="Time domain pitch clean" />
+                                    <img class="img-fluid rounded" src="assets/img/lab2/pitch_time_clean.png" alt="Time domain pitch clean" />
                                     <p class="mt-2"><strong>Figure 5.</strong> Time Domain Pitch (Clean)</p>
                                 </div>
 
                                 <div class="col-md-6 mb-4">
-                                    <img class="img-fluid rounded"
-                                        src="assets/img/lab2/pitch_time_noise.png"
-                                        alt="Time domain pitch with noise" />
+                                    <img class="img-fluid rounded" src="assets/img/lab2/pitch_time_noise.png" alt="Time domain pitch with noise" />
                                     <p class="mt-2"><strong>Figure 6.</strong> Time Domain Pitch (With Noise)</p>
                                 </div>
 
                                 <div class="col-md-6 mb-4">
-                                    <img class="img-fluid rounded"
-                                        src="assets/img/lab2/roll_time_clean.png"
-                                        alt="Time domain roll clean" />
+                                    <img class="img-fluid rounded" src="assets/img/lab2/roll_time_clean.png" alt="Time domain roll clean" />
                                     <p class="mt-2"><strong>Figure 7.</strong> Time Domain Roll (Clean)</p>
                                 </div>
 
                                 <div class="col-md-6 mb-4">
-                                    <img class="img-fluid rounded"
-                                        src="assets/img/lab2/roll_time_noise.png"
-                                        alt="Time domain roll with noise" />
+                                    <img class="img-fluid rounded" src="assets/img/lab2/roll_time_noise.png" alt="Time domain roll with noise" />
                                     <p class="mt-2"><strong>Figure 8.</strong> Time Domain Roll (With Noise)</p>
                                 </div>
+                                </div>
 
-                                <p class="text-start">
+                                <!-- Text explanation + equations (put in its own row/col) -->
+                                <div class="row">
+                                <div class="col-12 text-start">
+                                    <p class="mb-3">
                                     From the FFT results, it can be observed that the primary energy of both
-                                    pitch and roll is concentrated in the low-frequency region (around
-                                    3–4&nbsp;Hz).
-                                </p>
+                                    pitch and roll is concentrated in the low-frequency region (around 3–4&nbsp;Hz).
+                                    </p>
 
-                                <p class="text-center">
+                                    <p class="text-center mb-3">
                                     \( \alpha = \dfrac{T}{T + RC}, \quad
                                     T = \dfrac{1}{f_s}, \quad
                                     RC = \dfrac{1}{2\pi f_c} \)
-                                </p>
+                                    </p>
 
-                                <p class="text-start">
+                                    <p class="mb-2">
                                     With \( f_s = 283 \,\text{Hz} \) and \( f_c = 3 \,\text{Hz} \),
-                                </p>
+                                    </p>
 
-                                <p class="text-center">
+                                    <p class="text-center mb-0">
                                     \( \alpha \approx 0.062 \)
-                                </p>
-
-                                <div class="row text-center">
-
-                                    <div class="col-md-6 mb-4">
-                                        <img class="img-fluid rounded"
-                                            src="assets/img/lab2/pitch_fft_clean.png"
-                                            alt="FFT pitch clean" />
-                                        <p class="mt-2"><strong>Figure 9.</strong> FFT Pitch (Clean)</p>
-                                    </div>
-
-                                    <div class="col-md-6 mb-4">
-                                        <img class="img-fluid rounded"
-                                            src="assets/img/lab2/pitch_fft_noise.png"
-                                            alt="FFT pitch with noise" />
-                                        <p class="mt-2"><strong>Figure 10.</strong> FFT Pitch (With Noise)</p>
-                                    </div>
-
-                                    <div class="col-md-6 mb-4">
-                                        <img class="img-fluid rounded"
-                                            src="assets/img/lab2/roll_fft_clean.png"
-                                            alt="FFT roll clean" />
-                                        <p class="mt-2"><strong>Figure 11.</strong> FFT Roll (Clean)</p>
-                                    </div>
-
-                                    <div class="col-md-6 mb-4">
-                                        <img class="img-fluid rounded"
-                                            src="assets/img/lab2/roll_fft_noise.png"
-                                            alt="FFT roll with noise" />
-                                        <p class="mt-2"><strong>Figure 12.</strong> FFT Roll (With Noise)</p>
-                                    </div>
+                                    </p>
+                                </div>
                                 </div>
 
-                                <div class="row text-center">
-                                <figure class="my-4">
-                                    <img
-                                        src="assets/img/lab2/complementary_filter_code.png"
-                                        alt="Complementary filter implementation code snippet"
-                                        class="img-fluid"
-                                    >
-                                </figure>
-
-                                <p class="mb-4 text-start">
-                                    From the results, it can be observed that after applying the low-pass filter,
-                                    the high-frequency jitter in both the pitch and roll signals is significantly
-                                    reduced, resulting in much smoother curves. When noise is introduced, the
-                                    filtering effect becomes even more pronounced, with spikes and random
-                                    fluctuations being effectively suppressed. At the same time, the filtered
-                                    signals are still able to follow the overall trend of the original attitude
-                                    changes, indicating that the cutoff frequency is not set too low.
-                                </p>
-
+                                <!-- FFT plots: Figure 9-12 -->
+                                <div class="row text-center mt-4">
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded" src="assets/img/lab2/pitch_fft_clean.png" alt="FFT pitch clean" />
+                                    <p class="mt-2"><strong>Figure 9.</strong> FFT Pitch (Clean)</p>
+                                </div>
 
                                 <div class="col-md-6 mb-4">
-                                    <img class="img-fluid rounded"
-                                        src="assets/img/lab2/pitch_lpf_clean.png"
-                                        alt="Pitch Raw vs LPF (Clean)">
+                                    <img class="img-fluid rounded" src="assets/img/lab2/pitch_fft_noise.png" alt="FFT pitch with noise" />
+                                    <p class="mt-2"><strong>Figure 10.</strong> FFT Pitch (With Noise)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded" src="assets/img/lab2/roll_fft_clean.png" alt="FFT roll clean" />
+                                    <p class="mt-2"><strong>Figure 11.</strong> FFT Roll (Clean)</p>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded" src="assets/img/lab2/roll_fft_noise.png" alt="FFT roll with noise" />
+                                    <p class="mt-2"><strong>Figure 12.</strong> FFT Roll (With Noise)</p>
+                                </div>
+                                </div>
+
+                                <!-- Complementary filter code image -->
+                                <div class="row text-center">
+                                <div class="col-12 my-4">
+                                    <img
+                                    src="assets/img/lab2/complementary_filter_code.png"
+                                    alt="Complementary filter implementation code snippet"
+                                    class="img-fluid"
+                                    >
+                                </div>
+                                </div>
+
+                                <p class="mb-4 text-start">
+                                From the results, it can be observed that after applying the low-pass filter,
+                                the high-frequency jitter in both the pitch and roll signals is significantly
+                                reduced, resulting in much smoother curves. When noise is introduced, the
+                                filtering effect becomes even more pronounced, with spikes and random
+                                fluctuations being effectively suppressed. At the same time, the filtered
+                                signals are still able to follow the overall trend of the original attitude
+                                changes, indicating that the cutoff frequency is not set too low.
+                                </p>
+
+                                <!-- LPF plots: Figure 13-16 -->
+                                <div class="row text-center">
+                                <div class="col-md-6 mb-4">
+                                    <img class="img-fluid rounded" src="assets/img/lab2/pitch_lpf_clean.png" alt="Pitch Raw vs LPF (Clean)">
                                     <p class="mt-2"><strong>Figure 13.</strong> Pitch: Raw vs LPF (Clean)</p>
                                 </div>
 
                                 <div class="col-md-6 mb-4">
-                                    <img class="img-fluid rounded"
-                                        src="assets/img/lab2/pitch_lpf_noise.png"
-                                        alt="Pitch Raw vs LPF (With Noise)">
+                                    <img class="img-fluid rounded" src="assets/img/lab2/pitch_lpf_noise.png" alt="Pitch Raw vs LPF (With Noise)">
                                     <p class="mt-2"><strong>Figure 14.</strong> Pitch: Raw vs LPF (With Noise)</p>
                                 </div>
 
                                 <div class="col-md-6 mb-4">
-                                    <img class="img-fluid rounded"
-                                        src="assets/img/lab2/roll_lpf_clean.png"
-                                        alt="Roll Raw vs LPF (Clean)">
+                                    <img class="img-fluid rounded" src="assets/img/lab2/roll_lpf_clean.png" alt="Roll Raw vs LPF (Clean)">
                                     <p class="mt-2"><strong>Figure 15.</strong> Roll: Raw vs LPF (Clean)</p>
                                 </div>
 
                                 <div class="col-md-6 mb-4">
-                                    <img class="img-fluid rounded"
-                                        src="assets/img/lab2/roll_lpf_noise.png"
-                                        alt="Roll Raw vs LPF (With Noise)">
+                                    <img class="img-fluid rounded" src="assets/img/lab2/roll_lpf_noise.png" alt="Roll Raw vs LPF (With Noise)">
                                     <p class="mt-2"><strong>Figure 16.</strong> Roll: Raw vs LPF (With Noise)</p>
+                                </div>
+
                                 </div>
 
                                 <ul class="text-start">
@@ -1269,6 +1255,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Portfolio Modal 3-->
         <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" aria-labelledby="portfolioModal3" aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -1279,17 +1266,369 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Circus Tent</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 3: Time of Flight Sensors</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
                                         <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                                         <div class="divider-custom-line"></div>
                                     </div>
-                                    <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/circus.png" alt="..." />
-                                    <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+
+                                    <h4 class="mt-5 text-start">Prelab</h4>
+
+                                    <img class="img-fluid rounded mb-4"
+                                        src="assets/img/lab3/1.jpeg"
+                                        alt="Dual ToF wiring diagram">
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        This experiment utilizes the VL53L1X Time-of-Flight (ToF) distance sensor, communicating with the Arduino via I2C. The default I2C address of the VL53L1X is typically displayed as 0x29 (7-bit). Since both VL53L1X sensors share the same factory default address, connecting them directly to the same I2C bus would cause an address conflict. Therefore, differentiation is required during the initialization phase. I employ a method combining XSHUT control with address modification: At startup, pull one sensor low via XSHUT to keep it disabled. Initialize only the other sensor and modify its I2C address to a new value (e.g., 0x30). Subsequently release XSHUT to enable the second sensor, allowing both sensors to coexist with distinct addresses and perform parallel sampling.
+
+                                        Wiring is shown in the figure: The Artemis connects to the Qwiic MultiPort via QWIIC (I2C). The IMU shares SDA/SCL, VIN, and GND with both VL53L1X sensors. To enable individual power-up activation and address assignment, I additionally connected one ToF sensor's XSHUT pin to an Artemis GPIO (green wire in the diagram). This allows selective disabling/enabling of that sensor during initialization.
+                                    </p>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">Task 1: Battery</h4>
+
+                                    <img class="img-fluid rounded mb-4"
+                                        src="assets/img/lab3/2.jpg"
+                                        alt="LiPo battery for Artemis power">
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        After cutting the battery wires, I soldered them to the JST connectors
+                                        and insulated each solder joint with heat shrink tubing. To prevent
+                                        short circuits during operation, I cut only one wire at a time,
+                                        soldering and insulating it before proceeding to the next. This ensured
+                                        that the positive and negative terminals were never exposed and in
+                                        contact simultaneously.
+                                    </p>
+
+                                    <p class="mb-4 justify">
+                                        Additionally, when verifying polarity, I discovered that the actual
+                                        positive and negative terminals of the battery wires were reversed from
+                                        their color markings. Therefore, the final connections were made by
+                                        connecting the red wire to the black terminal and the black wire to the
+                                        red terminal. This ensures the battery's positive terminal connects to
+                                        the Artemis's positive terminal and the negative terminal connects to
+                                        the Artemis's negative terminal.
+                                    </p>
+
+                                    <p class="mb-4 justify">
+                                        As you can see in the video, when Artemis is powered by its battery, it can still communicate with the computer via Bluetooth.
+                                    </p>
+                                    </div>
+
+                                    <iframe width="485" height="862" src="https://www.youtube.com/embed/itWe1CPEKP4" title="Lab3 Task1 Battery" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            
+                                    <h4 class="mt-5 text-start">Task 2: Connections</h4>
+
+                                    <img class="img-fluid rounded mb-4"
+                                        src="assets/img/lab3/3.jpg"
+                                        alt="Dual ToF sensor connections via Qwiic MultiPort">
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        As shown in the diagram above, I connected two ToF sensors to the Artemis
+                                        board via a QWIIC MultiPort splitter board. To facilitate future
+                                        installation of the ToF sensors at designated locations on the vehicle
+                                        body and simplify cable routing, I selected longer QWIIC cables for both
+                                        ToF sensors. For wire color assignment, I connected the blue wire to SDA
+                                        and the yellow wire to SCL, while the remaining power and ground wires
+                                        were connected according to QWIIC standards.
+                                    </p>
+
+                                    <p class="mb-4 justify">
+                                        Additionally, to enable independent activation and address assignment
+                                        during dual ToF initialization, I soldered an extra wire to bring out
+                                        the XSHUT pin from one ToF sensor and connect it to pin A3 on the Artemis
+                                        board. This allows for individual shutdown/activation control of that
+                                        sensor within the program.
+                                    </p>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">Task 3: I2C Channel</h4>
+
+                                    <img class="img-fluid rounded mb-4"
+                                        src="assets/img/lab3/4.jpg"
+                                        alt="I2C scan result showing 0x29">
+
+                                    <img class="img-fluid rounded mb-4"
+                                        src="assets/img/lab3/5.png"
+                                        alt="VL53L1X I2C address bit format">
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        When scanning the I2C bus to confirm the sensor address, the datasheet
+                                        specifies an address of 0x52, but when I used Arduino's Example05_wire_I2C
+                                        to scan, the address detected was 0x29. These appear different but
+                                        actually represent the same address: 0x52 is the 8-bit address format
+                                        including the least significant R/W bit, while scanners typically display
+                                        the 7-bit address after removing the R/W bit. Therefore, removing the
+                                        least significant R/W bit from 0x52 (equivalent to shifting right by one
+                                        bit) yields 0x29, matching the scan result. This confirms the sensor
+                                        address is as expected.
+                                    </p>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">Task 4: Sensor Configurations</h4>
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        The VL53L1X offers three ranging modes: Short, Medium, and Long, with
+                                        maximum ranges of approximately 1.3 m, 3 m, and 4 m respectively. Long
+                                        mode provides the greatest distance but tends to be less stable in strong
+                                        ambient light or with low-reflectivity targets, and typically has a lower
+                                        refresh rate. Medium mode represents a compromise. Short mode, while
+                                        offering the shortest range, delivers more stable readings at close
+                                        distances, better interference resistance, and facilitates higher sampling
+                                        frequencies.
+                                    </p>
+
+                                    <p class="mb-4 justify">
+                                        Therefore, I ultimately selected short mode. The primary reasons are its
+                                        more reliable readings at close range and its suitability for increasing
+                                        sampling frequency. This enables a more responsive control loop, aligning
+                                        better with the final robot's application scenario of indoor close-range
+                                        navigation.
+                                    </p>
+
+                                    <img class="img-fluid rounded mb-4"
+                                        src="assets/img/lab3/tof_plot.png"
+                                        alt="VL53L1X measured vs actual distance comparison">
+
+                                    <p class="mb-4 justify">
+                                        I conducted simple calibration tests in both Short and Long modes:
+                                        positioning the sensor directly facing the wall, securing the actual
+                                        distance at four fixed points (30, 100, 200, 300 mm) using a ruler,
+                                        recording the measurement results at each position, and comparing them
+                                        with the actual values. Note that the sensor's minimum effective range
+                                        is approximately 40 mm, so when the actual distance is 30 mm, both modes
+                                        read 0 mm. Overall, the Short mode exhibited more stable standard
+                                        deviation (around 1.1 mm), while the Long mode showed slightly greater
+                                        fluctuation at 200 mm (std≈2.31 mm). Given our primary focus on stable
+                                        close-range obstacle avoidance, this supports prioritizing the Short
+                                        mode for subsequent use.
+                                    </p>
+                                    </div>
+
+                                    <div class="table-responsive mb-4">
+                                    <table class="table table-bordered text-center align-middle">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th>Mode</th>
+                                            <th>Sampling Method</th>
+                                            <th>Mean Period (mean_dt, ms)</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>LONG</td>
+                                            <td>Continuous ranging (NO_STOP)</td>
+                                            <td>49.14</td>
+                                        </tr>
+                                        <tr>
+                                            <td>LONG</td>
+                                            <td>Stop/Start per measurement (WITH_STOP)</td>
+                                            <td>96.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SHORT</td>
+                                            <td>Continuous ranging (NO_STOP)</td>
+                                            <td>49.09</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SHORT</td>
+                                            <td>Stop/Start per measurement (WITH_STOP)</td>
+                                            <td>49.10</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        To estimate ranging speed and repeatability, I statistically analyzed the
+                                        time intervals between consecutive samples. As shown in the table above,
+                                        during continuous ranging (without frequent stop/start cycles), both Short
+                                        and Long modes maintained an average update interval of approximately
+                                        49 ms (around 20 Hz) with minimal jitter (standard deviation around
+                                        0.3 ms), indicating a stable sampling rhythm. However, in Long mode, if
+                                        <code>stopRanging()</code> is called before each subsequent ranging, the
+                                        cycle time slows significantly (around 96 ms). Therefore, for higher update
+                                        rates and real-time performance, I favor the continuous ranging approach.
+                                        In the final system, I will use Short mode to balance proximity stability
+                                        with sampling frequency.
+                                    </p>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">Task 5: Two ToF Sensors</h4>
+
+                                    <div class="text-center my-4">
+                                    <img src="assets/img/lab3/6.png" 
+                                        alt="Dual ToF initialization code"
+                                        class="img-fluid rounded">
+                                    </div>
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        To connect two ToF sensors simultaneously, I changed the address of one sensor to 0x30 during initialization, as shown in the diagram above. The specific procedure is as follows: First, pull the sensor connected to A3 (XSHUT) low to keep it disabled, allowing only the other sensor to operate on the bus and complete initialization; then, I called <code>setI2CAddress(0x30)</code> to change its address from 0x29 to 0x30. Finally, I pulled XSHUT high to enable the second sensor and executed <code>begin()</code> and <code>startRanging()</code> on both sensors. This allows both ToF sensors to operate in parallel on the same I2C bus for normal ranging.
+                                    </p>
+                                    </div>
+
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/TO2n5WGt3h8?si=PxzQEz8Xk7-c5L1h" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        The video above demonstrates that both ToF sensors can successfully perform distance readings.
+                                    </p>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">Task 6: ToF Sensor Speed</h4>
+
+                                    <div class="text-center my-4">
+                                    <img src="assets/img/lab3/8.png"
+                                        alt="ToF sensor speed measurement code"
+                                        class="img-fluid rounded">
+                                    </div>
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        As shown in the code above, to prevent the program from blocking while waiting for the ToF sensors to complete distance measurements, I continuously output the Artemis timestamp using <code>millis()</code> within the <code>loop()</code>. Distance data are read and printed only when both the front and right sensors return <code>checkForDataReady()</code> as true.
+                                    </p>
+                                    </div>
+
+                                    <div class="text-center my-4">
+                                    <img src="assets/img/lab3/7.png"
+                                        alt="ToF sensor speed serial output"
+                                        class="img-fluid rounded">
+                                    </div>
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        From the captured serial output, it can be observed that within the 0.404&nbsp;s interval from 13204&nbsp;ms to 13608&nbsp;ms, “Time:” appeared 159 times. Therefore, the loop execution rate is approximately 393.6&nbsp;Hz. Meanwhile, “Front&nbsp;Distance(mm)…Right&nbsp;Distance(mm)… ” was output 5 times, corresponding to a new ToF data update rate of approximately 12.38&nbsp;Hz.
+                                    </p>
+                                    </div>
+
+                                    <div class="text-center my-4">
+                                    <p class="mb-2">
+                                        Loop iterations per second = 159 / 0.404 = 393.6 Hz (≈ 394 Hz)
+                                    </p>
+                                    <p class="mb-0">
+                                        Distance updates per second = 5 / 0.404 = 12.38 Hz (≈ 12.4 Hz)
+                                    </p>
+                                    </div>
+
+                                    <div class="text-start">
+                                    <p class="mb-4 justify">
+                                        Therefore, the current bottleneck is not the MCU loop execution, but rather the intrinsic ranging update cycle of the ToF sensors (which requires both sensors to be ready), compounded by the overhead of serial printing and I2C communication. Even though the main loop can execute at a high frequency, distance data can only be produced at the rate at which the sensors generate new measurements.
+                                    </p>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">Task 7: Time vs. Distance and Time vs. Angle</h4>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In this experiment, the BLE framework developed in Lab&nbsp;1 was extended to enable
+                                    simultaneous acquisition of time-stamped ToF distance data and IMU attitude data within a
+                                    fixed recording window. The collected data were then transmitted to the host computer in a
+                                    single BLE transfer for subsequent plotting and analysis.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    A new Arduino command, <code>READ_IMU_TOF</code>, was implemented. When triggered, the
+                                    system continuously records sensor data for approximately 3&nbsp;seconds. All sensor
+                                    measurements share a common time reference defined as
+                                    \( t = \text{millis()} - t_{\text{start}} \), ensuring that the ToF and IMU data are aligned on
+                                    the same time axis and temporally synchronized.
+                                    </p>
+
+                                    <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab3/9.png"
+                                            alt="ToF Distance vs Time">
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The figure above shows the ToF distance curve over time. It can be observed that the front distance remains stable within the range of approximately 85–97 mm, while the right-side distance stabilizes within the range of approximately 103–109 mm. The overall trend is relatively smooth, exhibiting only minor fluctuations.
+                                    </p>
+
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab3/10.png"
+                                            alt="IMU Pitch and Roll vs Time">
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The figure above shows the pitch and roll of the IMU over time. It can be seen that the pitch stabilizes around 3°, while the roll stabilizes around −0.3°. The overall curve is relatively smooth, exhibiting only minor fluctuations.
+                                    </p>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Additional Task (5000-Level Students)</h3>
+
+                                    <h4 class="mt-4 text-start">Task 1: Infrared Transmission Based Sensors Discussion</h4>
+
+                                    <ul style="text-align: justify;">
+
+                                    <li class="mb-3">
+                                        <strong>IR Triangulation Distance Sensors (e.g., Sharp IR)</strong>
+                                        <ul>
+                                        <li><strong>Principle:</strong> An infrared beam is emitted toward the target. The distance is estimated from the position shift of the reflected light on the receiver, based on geometric triangulation.</li>
+                                        <li><strong>Advantages:</strong> Fast response at close range, simple implementation, and relatively low cost.</li>
+                                        <li><strong>Disadvantages:</strong> Typically limited measurement range; strongly nonlinear output; sensitive to target color, reflectivity, and surface angle, with large errors for dark or tilted surfaces.</li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="mb-3">
+                                        <strong>Reflective IR Proximity Sensors (IR LED + Photodiode)</strong>
+                                        <ul>
+                                        <li><strong>Principle:</strong> Measures reflected infrared light intensity, primarily indicating presence or approximate proximity of an object.</li>
+                                        <li><strong>Advantages:</strong> Very low cost, compact size, easy integration, and fast response.</li>
+                                        <li><strong>Disadvantages:</strong> Difficult to achieve accurate distance measurement; highly sensitive to ambient light, material, and color; more suitable for near-distance triggering than quantitative ranging.</li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <strong>Time-of-Flight (ToF) Sensors (e.g., VL53L1X)</strong>
+                                        <ul>
+                                        <li><strong>Principle:</strong> Measures the round-trip flight time of emitted light pulses to compute distance.</li>
+                                        <li><strong>Advantages:</strong> More linear distance output, direct millimeter-level readings, longer range, and well suited for robotic obstacle avoidance and wall-following.</li>
+                                        <li><strong>Disadvantages:</strong> Update rate limited by ranging cycle parameters (e.g., timing budget); effective range and stability degrade under strong ambient light or low-reflectivity targets.</li>
+                                        </ul>
+                                    </li>
+
+                                    </ul>
+
+                                    <h4 class="mt-4 text-start">Task 2: Sensitivity of Sensors</h4>
+
+                                    <ul style="text-align: justify;">
+
+                                    <li class="mb-3">
+                                        <strong>Effect of Color (Reflectivity)</strong>
+                                        <ul>
+                                        <li><strong>Dark / absorptive materials</strong> (black fabric, matte black surfaces): Weak return signal → more prone to jitter, missed detection, or underestimated/unstable readings.</li>
+                                        <li><strong>Light / highly reflective materials</strong> (white paper, light-colored walls): Strong return signal → generally more stable measurements and longer effective range.</li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="mb-3">
+                                        <strong>Effect of Texture and Surface Properties</strong>
+                                        <ul>
+                                        <li><strong>Diffuse surfaces</strong> (rough surfaces): Reflections are more scattered but more uniform → often produce more stable readings.</li>
+                                        <li><strong>Specular / glossy surfaces</strong> (polished metal, mirrors): Specular reflection or multipath effects may occur → occasional distance spikes or jumps.</li>
+                                        <li><strong>Transparent / semi-transparent materials</strong> (acrylic, glass): Infrared light may transmit through or reflect from the back surface → overestimated or unstable distance readings.</li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <strong>Effect of Incidence Angle (Oblique Targets)</strong>
+                                        <ul>
+                                        <li>As the angle between the target surface and the sensor optical axis increases, the return signal weakens → higher probability of target loss or reduced measurable range.</li>
+                                        </ul>
+                                    </li>
+
+                                    </ul>
+
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
