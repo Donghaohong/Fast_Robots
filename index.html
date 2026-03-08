@@ -112,7 +112,7 @@
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                             </div>
-                            <img class="img-fluid" src="assets/img/portfolio/game.png" alt="..." />
+                            <img class="img-fluid" src="assets/img/portfolio/lab4.jpg" alt="..." />
                         </div>
                     </div>
                     <!-- Portfolio Item 5-->
@@ -1650,17 +1650,259 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Controller</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 4: Motors and Open Loop Control</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
                                         <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                                         <div class="divider-custom-line"></div>
                                     </div>
-                                    <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/game.png" alt="..." />
-                                    <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+
+                                    <h3 class="mt-5 text-start">Prelab</h3>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab4/11.jpg"
+                                                alt="Motor Driver Wiring Diagram">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In this experiment, I used two dual motor drivers to control the left and right motors respectively. Following the experiment requirements, I connected the two H-bridge channels of each driver in parallel to increase the current available to the motors. For the left motor, its control inputs AIN1/BIN1 are connected to pin 2 of the Artemis, while AIN2/BIN2 are connected to pin 3. For the right motor, its control inputs AIN1/BIN1 are connected to pin 0, while AIN2/BIN2 are connected to pin 1.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Regarding power connections, the motor driver's VIN/GND terminals are powered by an 850 mAh battery to supply power to the motor, while Artemis is powered by a separate battery.
+                                    </p>
+
+                                    <h4 class="mt-5 text-start">Task 1: Power Supply Setup</h4>
+
+                                    <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/1.jpg"
+                                            alt="Power Supply Setup">
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    As shown in the figure, we set the power supply voltage to 3.7V, matching the rated voltage of the 850mAh lithium battery to be used later. This ensures that the motor's operating state during debugging aligns with the final battery power supply conditions, preventing test results from deviating from actual operating conditions due to testing at higher or lower voltages.
+                                    </p>
+                                </div>
+
+                                <h4 class="mt-5 text-start">Task 2: PWM Signals</h4>
+
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/3.png"
+                                            alt="PWM Control Code">
+                                    </div>
+                                </div>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                After completing the hardware connections of the motor driver, I used 
+                                analogWrite() to generate a PWM signal to regulate the output power of the motor driver. 
+                                In the program, IN2 was set to a low level to fix the rotation direction, while a PWM signal 
+                                was applied to IN1 with a duty cycle value of 150 (within the range of 0–255).
+                                </p>
+
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/2.jpg"
+                                            alt="PWM Control Code">
+                                    </div>
+                                </div>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                To verify whether the PWM signal is output correctly, I measured the waveform at the driver input using an oscilloscope. The oscilloscope probe was connected to the IN1 pin, with the ground wire connected to the system common ground. The waveform displayed a stable square wave signal with a frequency of approximately 183 Hz and a duty cycle of about 59%, corresponding to the set analogWrite(IN1, 150) value (150/255 ≈ 58.8%). When changing the analogWrite() value, the duty cycle was observed to change accordingly on the oscilloscope.
+                                </p>
+                                
+                                <h4 class="mt-5 text-start">Task 3: Spinning Wheels with Power Supply</h4>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                For this section, the external power supply was also set to 3.7 V, and the positive and negative terminals of the circuit were connected to the corresponding terminals of the power supply.
+                                </p>
+
+                                <h5 class="mt-4 text-start">Left Wheel</h5>
+
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/4.png"
+                                            alt="Left Wheel Motor Control Code">
+                                    </div>
+                                </div>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                A PWM signal was then applied to the motor driver input. By switching the PWM input configuration to generate forward and reverse rotation, I verified that both motor driver output terminals were able to correctly receive the control signals and drive the motor accordingly.
+                                </p>
+
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/vRH7K_LSqHE?si=qcip7X4SzvT0hDEJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                <h5 class="mt-4 text-start">Right Wheel</h5> 
+
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/5.png"
+                                            alt="Left Wheel Motor Control Code">
+                                    </div>
+                                </div>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                The following video demonstrates testing of the right wheel. The operation results align with expectations: it first rotates clockwise and then stops, followed by rotating counterclockwise and stopping.
+                                </p>
+                                    
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/oAXPnje8AD8?si=pbcX-HQR2inNRAty" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
+                                
+                                 <h4 class="mt-5 text-start">Task 4: Spinning Wheels with Battery</h4>
+
+                                 <h5 class="mt-4 text-start">Left Wheel</h5>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                After confirming that the motor operates normally when powered by the external power supply, the system was then powered using the provided 850 mAh lithium battery.
+                                </p>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                The following video demonstrates the wheel's operational state, showing that it rotates as expected.
+                                </p>
+
+                                <iframe width="352" height="625" src="https://www.youtube.com/embed/uQjXOXB6XCg" title="Left wheel powered by battery" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                <h5 class="mt-4 text-start">Right Wheel</h5>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                The following video shows the right wheel drive in operation.
+                                </p>
+                                
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/JnVYwXaU56M?si=3KFJqSFDvlvnd-dc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                <h4 class="mt-5 text-start">Task 5: Assembled Car</h4>
+
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/10.jpg"
+                                            alt="Assembled Robot with Labeled Components">
+                                    </div>
+                                </div>
+
+                                <h4 class="mt-5 text-start">Task 6: Lower Limit PWM</h4>
+
+                                <h5 class="mt-4 text-start">Going Straight</h5>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                I started with PWM 30. At this point, the motor only emitted a humming sound, insufficient to drive rotation. This indicated the current PWM signal was too weak. I then increased it from 30 to 25, and from 35 to 40. When PWM reached 40, the cart moved slightly but quickly stopped again.
+                                </p>
+
+                                <iframe width="485" height="862" src="https://www.youtube.com/embed/l-TcVDaAzb4" title="GOING stragiht pwm30_40" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                I then tested a PWM value of 45, at which point the car operated normally. Therefore, I determined 45 to be the minimum PWM value for straight-line travel. The following video demonstrates the car's movement.
+                                </p>
+
+                                <iframe width="485" height="862" src="https://www.youtube.com/embed/zSeto1guwek" title="Going straight pwm45" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                <h5 class="mt-4 text-start">Turning</h5>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                To determine the minimum PWM value required for the wheels to overcome friction during turning, I incremented the PWM value from 40 in 10-step increments. The cart only began rotating when the PWM reached 120. The rotation is demonstrated in the following video.
+                                </p>
+
+                                <iframe width="485" height="862" src="https://www.youtube.com/embed/tdQas-kqewM" title="Turning pwm120" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                <h4 class="mt-5 text-start">Task 7: Calibration</h4>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                During previous tests, I observed that the right wheel of the small car rotated faster than the left wheel when receiving identical PWM signals. Therefore, I introduced a calibration factor in the code to scale the PWM of the right motor, thereby balancing the rotational speeds of both wheels. Through iterative adjustments, I determined that 0.63 is the optimal calibration factor when the PWM is set to 80.
+                                </p>
+
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/6.png"
+                                            alt="Motor Calibration Code">
+                                    </div>
+                                </div>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                The following video demonstrates the calibrated vehicle traveling in a straight line along the tape.
+                                </p>
+
+                                <iframe width="352" height="625" src="https://www.youtube.com/embed/4zwmCURJ-ls" title="Calibrated Car" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                <h4 class="mt-5 text-start">Task 8: Open Loop Control</h4>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                I predefined a sequence of actions in the program, enabling the robot to execute movements in the order of straight → right turn → left turn → stop without relying on any sensor feedback.
+                                </p>
+
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/7.png"
+                                            alt="Open Loop Control Code">
+                                    </div>
+                                </div>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                As seen in the video, the robot first moves straight ahead for a distance, then turns right, followed by a turn to the left, and finally comes to a stop.
+                                </p>
+                                
+                                <iframe width="352" height="625" src="https://www.youtube.com/embed/0oL6MpstdM0" title="Open Loop Control" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                
+                                <h3 class="mt-5 text-start">Additional Task (5000 - Level Students)</h3>
+
+                                <h4 class="mt-4 text-start">Task 1: analogWrite Frequency Discussion</h4>
+
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/2.jpg"
+                                            alt="PWM Frequency Oscilloscope Measurement">
+                                    </div>
+                                </div>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                Oscilloscope measurements reveal that the PWM signal generated by analogWrite() on the Artemis board has a frequency of approximately 183 Hz and a duty cycle of about 58.8%, consistent with the program's analogWrite(IN1, 150) setting.
+                                </p>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                For DC motors, this frequency typically suffices for basic control requirements. However, lower PWM frequencies may cause significant motor current fluctuations and occasionally produce audible motor noise.
+                                </p>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                Manually configuring the microcontroller's timer to increase the PWM frequency may offer several advantages. For instance, a higher PWM frequency can reduce motor current fluctuations, resulting in smoother output torque. It also helps minimize audible noise, as higher frequencies fall outside the human hearing range. Additionally, higher-frequency PWM enables more stable motor drive, thereby enhancing overall operational performance.
+                                </p>
+
+                                <h4 class="mt-4 text-start">Task 2: Lowest PWM Value Speed Discussion</h4>
+
+                                <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab4/8.png"
+                                            alt="Lowest PWM Value Test Code">
+                                    </div>
+                                </div>
+
+                                <iframe width="352" height="625" src="https://www.youtube.com/embed/n-uBZngXq6I" title="Lowest PWM Value Speed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                From the experimental video, it can be observed that starting from the previously measured minimum PWM value of 45, the robot was still able to continue moving forward for a distance when the PWM was reduced to 40. However, after running for a period of time, the robot gradually stopped advancing, with only a faint humming sound emanating from the motor. This indicates that at this PWM value, the torque output by the motor had approached the limit of the system's frictional resistance, rendering it unable to sustain the vehicle's motion.
+                                </p>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                Therefore, the experiment suggests that PWM = 40 represents the minimum PWM value at which the robot can sustain motion. At lower PWM values, the motor cannot generate sufficient driving force to overcome friction and maintain stable movement.
+                                </p>
+
+                                <h3 class="mt-5 text-start">References</h3>
+
+                                <p class="mb-4" style="text-align: justify;">
+                                I would like to thank Professor Hebring and teaching assistant Julie for their assistance.
+                                </p>
+
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
@@ -1689,10 +1931,7 @@
                                         <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                                         <div class="divider-custom-line"></div>
                                     </div>
-                                    <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/safe.png" alt="..." />
-                                    <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+                                    
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
