@@ -121,7 +121,7 @@
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                             </div>
-                            <img class="img-fluid" src="assets/img/portfolio/safe.png" alt="..." />
+                            <img class="img-fluid" src="assets/img/portfolio/2.jpg" alt="..." />
                         </div>
                     </div>
                     <!-- Portfolio Item 6-->
@@ -1924,14 +1924,305 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Locked Safe</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 5: Linear PID control and Linear interpolation</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
                                         <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                                         <div class="divider-custom-line"></div>
                                     </div>
-                                    
+
+                                    <h3 class="mt-5 text-start">Prelab – BLE Communication</h3>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In this lab, Bluetooth Low Energy (BLE) communication was used to control the robot and retrieve experimental data. A Python script running on the computer sends commands to the Artemis board through a BLE characteristic. The Arduino program parses the received command and performs the corresponding operation, such as setting PID gains or starting a PID control experiment.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/1.png"
+                                                alt="BLE PID Communication and Data Logging">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    During a PID test, the robot continuously records data including timestamp, raw ToF distance, extrapolated distance, control error, and motor PWM values. These values are stored in arrays on the Artemis board. After the experiment finishes, the recorded data is transmitted back to the computer through BLE notifications, where Python collects the data and generates plots for analysis of the controller performance.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">PID Control and Sampling Discussion</h3>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The robot position control uses a standard PID controller.
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                    \( u(t) = K_p e(t) + K_i \int e(t)\,dt + K_d \frac{de(t)}{dt} \)
+                                    </p>
+
+                                    <p class="mb-3" style="text-align: justify;">
+                                    The error is defined as
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                    \( e(t) = d(t) - d_{target} \)
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The target distance is set to <b>304 mm</b>. To compensate for differences in motor performance, a proportional scaling factor is applied to the left and right wheels:
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                    \( PWM_L = 1.5\,PWM_{base}, \quad PWM_R = 1.0\,PWM_{base} \)
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The left wheel rotates more slowly, so additional compensation is applied.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    To ensure that the robot approaches the wall quickly when it is far away, the controller is designed so that the robot reaches near-maximum speed at approximately <b>2000 mm</b>. Since the Arduino PWM limit is <b>255</b>, the controller’s base PWM is limited to <b>188</b>, ensuring that the compensated wheel PWM values do not exceed the maximum PWM allowed by the motor driver.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/2.png"
+                                                alt="ToF Sampling Frequency Analysis">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Since the robot’s initial distance from the wall can reach approximately <b>2000 mm</b>, the <b>long distance mode</b> of the ToF sensor is used to obtain a larger measurement range. Experimental measurements show that the average time interval between two consecutive ToF readings is approximately <b>39.2 ms</b>, corresponding to a sampling frequency of about <b>25.5 Hz</b>.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Tuning Process</h3>
+
+                                    <h4 class="mt-5 text-start">P control</h4>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In the proportional control experiment, I first estimated a theoretical initial value for \(K_p\) based on the target conditions. During the experiment, the robot is expected to move at near maximum speed when it is approximately <b>2000 mm</b> away from the wall, while the target distance is <b>304 mm</b>. Therefore, the initial error is approximately
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                    \( e = 2000 - 304 = 1696 \ \text{mm}. \)
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The controller output satisfies
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                    \( u = K_p e. \)
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Since the goal is for the controller to produce a near-maximum base PWM output of approximately \(u \approx 188\) at this error, we can estimate
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                    \( K_p \approx \frac{188}{1696} \approx 0.11. \)
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Therefore, \(K_p = 0.11\) was selected as the theoretical initial value for testing.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/3.png">
+                                        </div>
+                                    </div>
+
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    As shown in the figure above, when \(K_p = 0.11\), the robot is able to approach the target position quickly, but the overshoot is very significant and the robot even collides with the wall. To reduce the overshoot and avoid collision, I then gradually decreased the proportional gain and finally selected \(K_p = 0.04\).
+                                    </p>
+
+                                    <div class="row text-center">
+
+                                        <div class="col-md-6 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/4.png">
+                                        </div>
+
+                                        <div class="col-md-6 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/5.png">
+                                        </div>
+
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    However, overshoot was still observed in the experiment. This is likely related to the deadband, the minimum effective PWM, the relatively low ToF sampling frequency, and the inertia of the robot itself. Therefore, a derivative term needs to be introduced to suppress this behavior.
+                                    </p>
+
+                                    <h4 class="mt-5 text-start">PI control</h4>
+
+                                    <div class="row text-center">
+
+                                        <div class="col-md-6 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/6.png">
+                                        </div>
+
+                                        <div class="col-md-6 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/7.png">
+                                        </div>
+
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    After introducing the integral term, I gradually increased \(K_i\) to reduce the steady-state error. When \(K_i = 0.0015\), the system reached an acceptable upper limit. Although the integral term could eliminate the error more aggressively, further increasing the integral gain would cause the robot to collide with the wall.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Extrapolation</h3>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Since the update frequency of the ToF sensor is about <b>25.5 Hz</b>, while the PID control loop operates at a higher frequency, waiting for every new ToF measurement would limit the controller performance and cause the distance estimate to change in a step-like manner, which is not suitable for smooth control. Therefore, a linear extrapolation method is introduced.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/8.png"
+                                                alt="Extrapolation Code">
+                                        </div>
+                                    </div>
+
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    When no new ToF measurement is available, the two most recent measurements \((d_{k-1}, t_{k-1})\) and \((d_k, t_k)\) are used to estimate the velocity:
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                    \( v = \frac{d_k - d_{k-1}}{t_k - t_{k-1}}. \)
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The distance at the current time \(t\) can then be estimated as
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                    \( \hat{d}(t) = d_k + v(t - t_k). \)
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    This approach generates a continuous distance estimate between two consecutive measurements, allowing the controller to run at a higher frequency while maintaining smoother input to the control system.
+                                    </p>
+
+                                    <div class="row text-center">
+                                    <div class="col-12 mb-4">
+                                        <img class="img-fluid rounded"
+                                            src="assets/img/lab5/9.png">
+                                    </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The black curve represents the original ToF measurements, while the red curve represents the extrapolated results. It can be observed that the extrapolated curve closely follows the overall trend of the original measurements while effectively reducing the discontinuities caused by the step-like sampling behavior.
+                                    </p>
+
+                                    <h4 class="mt-5 text-start">PID control</h4>
+
+                                    <div class="row text-center">
+
+                                        <div class="col-md-6 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/10.png">
+                                        </div>
+
+                                        <div class="col-md-6 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/11.png">
+                                        </div>
+
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The final selected parameters are \(K_p = 0.04\), \(K_i = 0.0015\), and \(K_d = 0.03\). From the figures, it can be observed that the ToF distance curve decreases smoothly overall and gradually converges as the robot approaches the target position. Correspondingly, the motor PWM also gradually decreases as the control error becomes smaller.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Testing result</h3>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The following three videos demonstrate the robot automatically stopping at the target distance.
+                                    </p>
+
+
+                                    <iframe width="458" height="815" src="https://www.youtube.com/embed/V7fb375UfG8" title="Test1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <iframe width="458" height="815" src="https://www.youtube.com/embed/1zO0D89GFZk" title="Test2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <iframe width="458" height="815" src="https://www.youtube.com/embed/K79zdAA6ycE" title="Test3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The following video demonstrates the robot's ability to resist external disturbances.
+                                    </p>
+
+                                    <iframe width="458" height="815" src="https://www.youtube.com/embed/K79zdAA6ycE" title="Test3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <h3 class="mt-5 text-start">Additional Task (5000-Level Students)</h3>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/12.png"
+                                                alt="Integral Limit Code">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    I adopted the simplest integral limiting method by setting upper and lower bounds on the integral error <code>integral_error</code> to prevent unlimited accumulation. The code uses
+                                    </p>
+
+                                    <p>
+                                    \[
+                                    I = K_i \int e(t)\,dt
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    and applies the constraint
+                                    </p>
+
+                                    <p>
+                                    \[
+                                    \text{integral\_error} \in [-I_{max}, I_{max}]
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In this experiment, \( I_{max} = 3000 \).
+                                    </p>
+
+                                    <div class="row text-center">
+
+                                        <div class="col-md-6 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/10.png">
+                                        </div>
+
+                                        <div class="col-md-6 mb-4">
+                                            <img class="img-fluid rounded"
+                                                src="assets/img/lab5/13.png">
+                                        </div>
+
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The figure on the right shows the results after removing the wind-up protection. The robot exhibits larger overshoot as it approaches the target position. After applying the integral limit, the system converges more smoothly and stabilizes more easily near the target distance.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">References</h3>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    This experiment referenced the course website created by Katherine Hsu.
+                                    </p>
+
+
+
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
