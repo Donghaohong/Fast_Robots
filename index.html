@@ -133,6 +133,15 @@
                             <img class="img-fluid" src="assets/img/portfolio/lab6.jpg" alt="..." />
                         </div>
                     </div>
+                    <!-- Portfolio Item 7-->
+                    <div class="col-md-6 col-lg-4 mt-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal7">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio/Lab7.jpg" alt="Lab 7 Cover" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2606,6 +2615,464 @@
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
                                     </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 7-->
+        <div class="portfolio-modal modal fade" id="portfolioModal7" tabindex="-1" aria-labelledby="portfolioModal7" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 7: Kalman Filter</h2>
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+
+                                    <h3 class="mt-4 text-start">Prelab</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    First, I added commands related to step response for drag and momentum estimation in Part 1. The <code>START_STEP_RESPONSE</code> command is used to initiate a linear test with a fixed PWM, while the <code>SEND_STEP_RESPONSE</code> command is used to send the recorded timestamps, ToF, and PWM data back to the computer.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/1.png" alt="Lab 7 Prelab Figure 1">
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/2.png" alt="Lab 7 Prelab Figure 2">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    To support the Kalman Filter experiment on the robot side in Part 4, I have added new commands related to KF-PID logging. The <code>START_KF_PID_LOG</code> command is used to initiate Kalman Filter-based distance estimation and PID control, while the <code>SEND_KF_LOG</code> command is used to transmit recorded raw ToF data, KF-estimated distance, estimated velocity, and scaled control inputs.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/3.png" alt="Lab 7 KF PID Figure 3">
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/4.png" alt="Lab 7 KF PID Figure 4">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    On the computer, I can launch step response or KF-PID experiments directly through Notebook and receive log strings asynchronously, which I can then parse into arrays for plotting and saving data.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/5.png" alt="Lab 7 Notebook Figure 5">
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/6.png" alt="Lab 7 Notebook Figure 6">
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Part 1: Estimate Drag and Momentum</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In this experiment, I had the robot move in a straight line toward the wall at a fixed motor input, while simultaneously recording the ToF distance, timestamps, and motor input data. Since the output of the left and right wheels was not exactly the same, I set the base PWM to 130 and applied compensation to the left wheel. To prevent the robot from colliding with the wall, it automatically stopped when the ToF reading approached 1000 mm.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The figure below shows the motor input curve. As can be seen, the input remains constant throughout the entire step response, which satisfies the basic conditions for first-order system response analysis.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/9.png" alt="Lab 7 Part 1 Figure 9">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Next is the ToF distance curve, which shows the robot gradually approaching the wall from a distance of approximately 3,900 mm and stopping at around 1,000 mm.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/7.png" alt="Lab 7 Part 1 Figure 7">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    To estimate the system speed from the step response, I differentiated the ToF data to obtain a velocity curve.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/8.png" alt="Lab 7 Part 1 Figure 8">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Based on this data, the steady-state speed was ultimately determined to be <i>v</i><sub>ss</sub> ≈ 2.281 m/s, and the 90% steady-state speed is 0.9<i>v</i><sub>ss</sub> ≈ 2.053 m/s, and the corresponding 90% rise time is <i>t</i><sub>0.9</sub> ≈ 1.355 s, and the velocity at the time corresponding to the rise time is approximately <i>v</i>(<i>t</i><sub>0.9</sub>) ≈ 2.086 m/s.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Let the normalized input be \( u = 1 \).
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    According to the steady-state relationship
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    d = \frac{u}{\dot{x}_{ss}}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    we obtain
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    d = \frac{1}{2280.8} \approx 4.38 \times 10^{-4}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Next, the 90% rise time is used to estimate the momentum term,
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    m = \frac{-d\,t_{0.9}}{\ln(0.1)}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Substituting \( d \approx 4.3845 \times 10^{-4} \) and \( t_{0.9} \approx 1.3546 \,\text{s} \) gives
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    m \approx 2.58 \times 10^{-4}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Therefore, in the subsequent Kalman Filter initialization, the system parameters I used are
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    d \approx 4.38 \times 10^{-4}, \qquad
+                                    m \approx 2.58 \times 10^{-4}
+                                    \]
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Part 2: Initialize KF</h3>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    After obtaining the estimated drag term <i>d</i> and momentum term <i>m</i> from Part 1, I first constructed the system state-space model in Python. The system state is defined as distance and velocity, so the state vector is written as
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \mathbf{x} =
+                                    \begin{bmatrix}
+                                    x \\
+                                    \dot{x}
+                                    \end{bmatrix}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    According to the first-order dynamic model,
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \ddot{x} = -\frac{d}{m}\dot{x} + \frac{1}{m}u
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    it can be written in state-space form as
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \dot{\mathbf{x}} = A\mathbf{x} + Bu
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    where the continuous-time matrices are
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    A =
+                                    \begin{bmatrix}
+                                    0 & 1 \\
+                                    0 & -\dfrac{d}{m}
+                                    \end{bmatrix},
+                                    \qquad
+                                    B =
+                                    \begin{bmatrix}
+                                    0 \\
+                                    \dfrac{1}{m}
+                                    \end{bmatrix}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Substituting the values obtained in Part 1,
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    d \approx 4.38 \times 10^{-4}, \qquad
+                                    m \approx 2.58 \times 10^{-4}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    gives
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    A =
+                                    \begin{bmatrix}
+                                    0 & 1 \\
+                                    0 & -1.6998
+                                    \end{bmatrix},
+                                    \qquad
+                                    B =
+                                    \begin{bmatrix}
+                                    0 \\
+                                    3876.90
+                                    \end{bmatrix}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Based on the recorded timestamps, the average sampling time in this experiment is
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \Delta T = 0.03912 \,\text{s}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Then, following the first-order discretization method in the lab manual,
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    A_d = I + \Delta T A,
+                                    \qquad
+                                    B_d = \Delta T B
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    the discrete-time matrices are obtained as
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    A_d =
+                                    \begin{bmatrix}
+                                    1 & 0.03912 \\
+                                    0 & 0.93351
+                                    \end{bmatrix},
+                                    \qquad
+                                    B_d =
+                                    \begin{bmatrix}
+                                    0 \\
+                                    151.91
+                                    \end{bmatrix}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Since the measurement is the positive distance relative to the wall, while the state uses the negative distance form, the measurement matrix is set as
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    C =
+                                    \begin{bmatrix}
+                                    -1 & 0
+                                    \end{bmatrix}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The initial state vector is set to the first-frame ToF distance and zero initial velocity:
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    x_0 =
+                                    \begin{bmatrix}
+                                    -\mathrm{TOF}[0] \\
+                                    0
+                                    \end{bmatrix}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Finally, I initialized the covariance matrices required for the Kalman Filter. The initial state covariance is set as
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \Sigma =
+                                    \begin{bmatrix}
+                                    10000 & 0 \\
+                                    0 & 250000
+                                    \end{bmatrix}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    the process noise covariance is set as
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \Sigma_u =
+                                    \begin{bmatrix}
+                                    2500 & 0 \\
+                                    0 & 90000
+                                    \end{bmatrix}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    and the measurement noise covariance is set as
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \Sigma_z =
+                                    \begin{bmatrix}
+                                    1600
+                                    \end{bmatrix}
+                                    \]
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Part 3: Implement and Test your Kalman Filter in Jupyter</h3>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    I first implemented the Kalman Filter function based on the prediction-update structure described in the lecture.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/11.png" alt="Lab 7 Part 3 Figure 11">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Then, I used the initialized \( \mathbf{x} \) and \( \Sigma \) from Part 2 as the initial values of the filter and ran the Kalman Filter point by point on the step response data. Since the step input in this experiment was set to 130, the motor input was scaled as \( u/130 \) at each step. Because the position in the state is defined as negative distance, it was converted back to a positive distance when saving the results so that it could be directly compared with the raw ToF data.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/12.png" alt="Lab 7 Part 3 Figure 12">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    As can be seen in the figure, the KF output closely follows the overall trend of the ToF distance curve and largely coincides with the raw measurements for most of the time.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/10.png" alt="Lab 7 Part 3 Figure 10">
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Part 4: Implement the Kalman Filter on the Robot</h3>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In this section, I integrated a Kalman filter into the linear PID control program from Lab 5 to replace the original linear extrapolation. This way, even when the ToF sensor updates slowly or there is a temporary lack of new data, the controller can still continue closed-loop control using the distance estimates provided by the filter.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    First, I added the BasicLinearAlgebra library to the Arduino side and defined the state, covariance, and system matrices required for the Kalman filter as global variables.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/13.png" alt="Lab 7 Part 4 Figure 13">
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/14.png" alt="Lab 7 Part 4 Figure 14">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Subsequently, I implemented the same Kalman Filter prediction-update logic on the board as on the Python side.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/15.png" alt="Lab 7 Part 4 Figure 15">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In the main loop, I have implemented the <code>flag_kf_pid</code> mode. In this mode, the first frame of ToF data is used to initialize the filter; subsequently, if new measurements are available, a Kalman filter update is performed, and if no new measurements are available, only a prediction is made. Therefore, the distance signal actually used by the PID is no longer the result of linear extrapolation, but rather <code>kf_est_dist_mm</code>.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/16.png" alt="Lab 7 Part 4 Figure 16">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    As can be seen in the figure, the KF output generally tracks the ToF curve well and remains stable as it approaches the target distance.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab7/17.png" alt="Lab 7 Part 4 Figure 17">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In addition, I recorded a video of the robot operating under KF-PID control.
+                                    </p>
+
+                                    <iframe width="350" height="622" src="https://www.youtube.com/embed/cZGrsl6kd-w" title="Linear PID using KF" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <h3 class="mt-5 text-start">Reference</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    I referenced Katherine Hsu's website.
+                                    </p>
+
                                 </div>
                             </div>
                         </div>
