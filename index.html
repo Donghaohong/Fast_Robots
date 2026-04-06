@@ -142,6 +142,15 @@
                             <img class="img-fluid" src="assets/img/portfolio/Lab7.jpg" alt="Lab 7 Cover" />
                         </div>
                     </div>
+                    <!-- Portfolio Item 8-->
+                    <div class="col-md-6 col-lg-4 mt-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal8">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio/Lab8.jpg" alt="Lab 8 Cover" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -3073,6 +3082,59 @@
                                     I referenced Katherine Hsu's website.
                                     </p>
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 8-->
+        <div class="portfolio-modal modal fade" id="portfolioModal8" tabindex="-1" aria-labelledby="portfolioModal8" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 8: Stunts! (Drift)</h2>
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    For Lab 8, our goal was to perform the Drift stunt: the robot starts several meters away from the wall, drives forward at high speed, and initiates a 180 degree turn when it is within the target distance of the wall.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Task B: Drift</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    We reused the BLE command structure, the front ToF distance trigger, and the IMU/DMP yaw estimate from Lab 6. As a baseline for turn behavior, we used the orientation-control framework from Lab 6 and previously tuned yaw PID gains of approximately <code>Kp = 0.8</code>, <code>Ki = 0.001</code>, and <code>Kd = 0.5</code>.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    I used a staged drift strategy:
+                                    </p>
+
+                                    <ol class="mb-4 text-start">
+                                        <li>Drive forward at a fixed fast PWM.</li>
+                                        <li>Use the front ToF sensor to detect when the robot is within the tuned trigger distance from the wall.</li>
+                                        <li>Initiate a fast turn using differential drive.</li>
+                                        <li>Track cumulative yaw using the IMU/DMP estimate.</li>
+                                        <li>Release the turn before the full 180 degree angle so that the robot&rsquo;s remaining momentum carries it through the maneuver.</li>
+                                    </ol>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    After fine-tuning the settings, I recorded three consecutive videos of drifting stunts.
+                                    </p>
+
+                                    <iframe width="359" height="638" src="https://www.youtube.com/embed/b7VVAYuN3kU" title="Lab8 firstrun" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <iframe width="359" height="638" src="https://www.youtube.com/embed/jY9He0fi3zU" title="Lab8 secondrun" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                                    <iframe width="359" height="638" src="https://www.youtube.com/embed/FsN5LanxSX8" title="Lab8 thirdrun" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                                 </div>
                             </div>
                         </div>
