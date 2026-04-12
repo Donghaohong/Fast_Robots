@@ -11078,3 +11078,19 @@ html {
   text-align: justify;
   text-justify: inter-word;
 }
+
+.report-code-block {
+  text-align: left;
+  background-color: #f8f9fa;
+  border: 1px solid #dfe6ec;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin: 0 0 1.5rem 0;
+  box-shadow: 0 0.35rem 1rem rgba(44, 62, 80, 0.08);
+}
+
+.report-code-block code {
+  color: #243447;
+  display: block;
+  line-height: 1.55;
+}

@@ -151,6 +151,15 @@
                             <img class="img-fluid" src="assets/img/portfolio/Lab8.jpg" alt="Lab 8 Cover" />
                         </div>
                     </div>
+                    <!-- Portfolio Item 9-->
+                    <div class="col-md-6 col-lg-4 mt-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal9">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio/Lab9.jpg" alt="Lab 9 Cover" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -3135,6 +3144,206 @@
                                     <iframe width="359" height="638" src="https://www.youtube.com/embed/jY9He0fi3zU" title="Lab8 secondrun" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
                                     <iframe width="359" height="638" src="https://www.youtube.com/embed/FsN5LanxSX8" title="Lab8 thirdrun" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 9-->
+        <div class="portfolio-modal modal fade" id="portfolioModal9" tabindex="-1" aria-labelledby="portfolioModal9" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 9: Mapping</h2>
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Objective</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The goal of this lab was to build a map of the front room of the lab using onboard ToF measurements collected while the robot rotated in place. I selected <strong>Option 2: PID control on orientation</strong>.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Orientation-Control Scanning</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    I implemented a step-scan controller on the Artemis. At the beginning of each scan, the robot stores the current DMP yaw as the starting heading. It then increments the target orientation by a fixed step size and reuses the Lab 6 orientation PID loop to rotate to the next angle. Once the yaw error is within tolerance, the robot stops, waits for a short settling interval, samples the front ToF sensor, logs the measured yaw and distance, and then proceeds to the next target angle. For my final scans, I used 20 degree increments and collected 18 readings per revolution.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Once the scan is active, the controller computes the wrapped yaw error to the next step target and uses the orientation PID loop to rotate on axis until the heading is within a small tolerance:
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-cpp">yaw_error_deg =
+    wrap_angle_deg(map_scan_target_yaw_deg - current_yaw_deg);
+
+p_term_ang = kp_ang * yaw_error_deg;
+
+if (ki_ang == 0.0f) {
+    integral_yaw_error = 0.0f;
+} else {
+    integral_yaw_error += yaw_error_deg * dt;
+    if (integral_yaw_error &gt; ANG_INTEGRAL_LIMIT) {
+        integral_yaw_error = ANG_INTEGRAL_LIMIT;
+    }
+    if (integral_yaw_error &lt; -ANG_INTEGRAL_LIMIT) {
+        integral_yaw_error = -ANG_INTEGRAL_LIMIT;
+    }
+}
+
+if (fabs(yaw_error_deg) &lt;= MAP_YAW_TOL_DEG) {
+    stop_motors();
+    map_scan_state = MAP_SCAN_SETTLING;
+    map_scan_settle_start_ms = now;
+} else {
+    if (yaw_error_deg &gt; 0.0f) {
+        turn_right_pwm(turn_pwm);
+    } else {
+        turn_left_pwm(turn_pwm);
+    }
+}</code></pre>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    After the robot reaches the target heading, it pauses briefly, reads the front ToF sensor, stores the sample, and advances to the next angular step:
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-cpp">else if (map_scan_state == MAP_SCAN_SETTLING) {
+    stop_motors();
+
+    if ((now - map_scan_settle_start_ms) >= map_scan_settle_ms) {
+        if (front.checkForDataReady()) {
+            float d_mm = front.getDistance();
+            front.clearInterrupt();
+
+            log_map_sample(map_scan_sample_idx,
+                           now - map_scan_start_ms,
+                           current_yaw_deg,
+                           d_mm,
+                           map_scan_target_yaw_deg);
+
+            if (map_scan_sample_idx >= (map_scan_num_steps - 1) ||
+                map_log_idx >= MAX_MAP_LOG) {
+                flag_map_scan = false;
+                map_scan_state = MAP_SCAN_DONE;
+                stop_motors();
+            } else {
+                map_scan_sample_idx++;
+                set_map_target_for_step(map_scan_sample_idx);
+                map_scan_state = MAP_SCAN_TURNING;
+            }
+        }
+    }
+}</code></pre>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Because the DMP yaw wraps at \( \pm 180^\circ \), we also normalize angular quantities before using them in the controller:
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-cpp">float wrap_angle_deg(float ang) {
+    while (ang &gt; 180.0f) ang -= 360.0f;
+    while (ang &lt; -180.0f) ang += 360.0f;
+    return ang;
+}</code></pre>
+
+                                    <h3 class="mt-5 text-start">Control Validation</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The robot was placed at each marked position in the lab: <code>(-3,-2)</code>, <code>(5,3)</code>, <code>(0,3)</code>, and <code>(5,-3)</code>. For every run, the robot began from a consistent physical starting orientation, rotated in place, and streamed the data back over BLE after completing the scan.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The single-position polar plots below were used as the required sanity checks.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab9/1.png" alt="Lab 9 Control Validation Plot 1">
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab9/2.png" alt="Lab 9 Control Validation Plot 2">
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab9/3.png" alt="Lab 9 Control Validation Plot 3">
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab9/4.png" alt="Lab 9 Control Validation Plot 4">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    To check repeatability, I also repeated the scan at one location and overlaid the two polar plots. The two runs aligned closely, indicating that the orientation-controller-based stepping was consistent enough for mapping.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab9/5.png" alt="Lab 9 Repeatability Plot">
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Transformation Matrices and World-Frame Conversion</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    After downloading the logs, I converted every ToF reading from the sensor frame into the room frame using homogeneous transforms. The front ToF sensor was mounted approximately 70 mm in front of the robot center, so I modeled that offset explicitly in the sensor-to-robot transform.
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-python">def wrap_deg(angle_deg):
+    arr = np.asarray(angle_deg, dtype=float)
+    return (arr + 180.0) % 360.0 - 180.0
+
+def make_T(x_mm, y_mm, theta_deg):
+    th = np.deg2rad(theta_deg)
+    return np.array([
+        [np.cos(th), -np.sin(th), x_mm],
+        [np.sin(th),  np.cos(th), y_mm],
+        [0.0,         0.0,        1.0],
+    ])</code></pre>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    For each sample, I computed the robot-relative yaw from the logged DMP heading and then applied the sensor-frame transform followed by the robot-to-world transform:
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-python">def scan_to_world_points(dist_mm, yaw_deg, robot_pose_mm=(0.0, 0.0, 0.0), sensor_pose_mm=(0.0, 0.0, 0.0)):
+    dist_mm = np.asarray(dist_mm, dtype=float)
+    yaw_deg = np.asarray(yaw_deg, dtype=float)
+    yaw_rel_deg = wrap_deg(yaw_deg - yaw_deg[0])
+
+    x_world_mm = []
+    y_world_mm = []
+
+    for d_mm, yaw_rel in zip(dist_mm, yaw_rel_deg):
+        T_world_robot = make_T(robot_pose_mm[0], robot_pose_mm[1], robot_pose_mm[2] + yaw_rel)
+        T_robot_sensor = make_T(sensor_pose_mm[0], sensor_pose_mm[1], sensor_pose_mm[2])
+        p_sensor = np.array([d_mm, 0.0, 1.0])
+        p_world = T_world_robot @ T_robot_sensor @ p_sensor
+        x_world_mm.append(p_world[0])
+        y_world_mm.append(p_world[1])
+
+    return np.array(x_world_mm), np.array(y_world_mm), yaw_rel_deg</code></pre>
+
+                                    <h3 class="mt-5 text-start">Merged Map and Line-Based Map</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    After converting all four scans into the inertial frame, I plotted all points together with different colors.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab9/6.png" alt="Lab 9 Merged Map and Line-Based Map">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
