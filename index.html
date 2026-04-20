@@ -160,6 +160,15 @@
                             <img class="img-fluid" src="assets/img/portfolio/Lab9.jpg" alt="Lab 9 Cover" />
                         </div>
                     </div>
+                    <!-- Portfolio Item 10-->
+                    <div class="col-md-6 col-lg-4 mt-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal10">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio/Lab10.jpg" alt="Lab 10 Cover" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -3344,6 +3353,263 @@ def make_T(x_mm, y_mm, theta_deg):
                                             <img class="img-fluid rounded" src="assets/img/lab9/6.png" alt="Lab 9 Merged Map and Line-Based Map">
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 10-->
+        <div class="portfolio-modal modal fade" id="portfolioModal10" tabindex="-1" aria-labelledby="portfolioModal10" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 10: Grid Localization Using Bayes Filter</h2>
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Objective</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The goal of this lab was to localize a virtual robot in a known map using a Bayes Filter. Instead of estimating pose in a continuous space, we discretized the state space into a 3D grid over \( (x, y, \theta) \). In this simulator, the grid size is \( 12 \times 9 \times 18 \), and the angle range is \( [-180, 180) \) degrees. At each step, the robot uses noisy odometry and 18 range observations collected during a full observation loop to estimate its most likely state.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Bayes Filter Algorithm</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The Bayes Filter updates belief in two stages. First, the prediction step propagates the previous belief using the motion model:
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \bar{bel}(x_t) = \sum_{x_{t-1}} p(x_t \mid u_t, x_{t-1})\,bel(x_{t-1})
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Then, the update step corrects that prediction using sensor measurements:
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    bel(x_t) = \eta\,p(z_t \mid x_t)\,\bar{bel}(x_t)
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    After each iteration, the most probable state represents the robot&rsquo;s estimated pose, and this estimate should be compared with the ground truth.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Compute Control</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    I first computed the odometry control parameters from two consecutive odometry poses:
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \delta_{rot1} = \mathrm{atan2}(y' - y, x' - x) - \theta
+                                    \]
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \delta_{trans} = \sqrt{(x' - x)^2 + (y' - y)^2}
+                                    \]
+                                    </p>
+
+                                    <p style="text-align: center;">
+                                    \[
+                                    \delta_{rot2} = \theta' - \theta - \delta_{rot1}
+                                    \]
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    Angle normalization was important here, since all headings must stay in \( [-180, 180) \).
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-python">def compute_control(cur_pose, prev_pose):
+    """ Given the current and previous odometry poses, this function extracts
+    the control information based on the odometry motion model.
+
+    Args:
+        cur_pose  ([Pose]): Current Pose
+        prev_pose ([Pose]): Previous Pose
+
+    Returns:
+        [delta_rot_1]: Rotation 1  (degrees)
+        [delta_trans]: Translation (meters)
+        [delta_rot_2]: Rotation 2  (degrees)
+    """
+    x, y, yaw = cur_pose
+    prev_x, prev_y, prev_yaw = prev_pose
+
+    dx = x - prev_x
+    dy = y - prev_y
+    dyaw = yaw - prev_yaw
+    delta_trans = np.hypot(dx, dy)
+
+    if delta_trans < 1e-9:
+        delta_rot_1 = 0.0
+    else:
+        delta_rot_1 = np.degrees(np.arctan2(dy, dx)) - prev_yaw
+
+    delta_rot_1 = mapper.normalize_angle(delta_rot_1)
+    delta_rot_2 = mapper.normalize_angle(dyaw - delta_rot_1)
+
+    return float(delta_rot_1), float(delta_trans), float(delta_rot_2)</code></pre>
+
+                                    <h3 class="mt-5 text-start">Odometry Motion Model</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    For the motion model, I compared the control implied by a candidate state transition with the actual odometry control. Each error term was evaluated with a Gaussian likelihood. This gives \( p(x_t \mid u_t, x_{t-1}) \).
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-python">def odom_motion_model(cur_pose, prev_pose, u):
+    """ Odometry Motion Model
+
+    Args:
+        cur_pose  ([Pose]): Current Pose
+        prev_pose ([Pose]): Previous Pose
+        (rot1, trans, rot2) (float, float, float): A tuple with control data in the format
+                                                   format (rot1, trans, rot2) with units (degrees, meters, degrees)
+
+
+    Returns:
+        prob [float]: Probability p(x'|x, u)
+    """
+    u_delta_rot_1, u_delta_trans, u_delta_rot_2 = u
+    delta_rot_1, delta_trans, delta_rot_2 = compute_control(cur_pose, prev_pose)
+
+    rot1_err = mapper.normalize_angle(delta_rot_1 - u_delta_rot_1)
+    trans_err = delta_trans - u_delta_trans
+    rot2_err = mapper.normalize_angle(delta_rot_2 - u_delta_rot_2)
+
+    prob = (
+        loc.gaussian(rot1_err, 0.0, loc.odom_rot_sigma)
+        * loc.gaussian(trans_err, 0.0, loc.odom_trans_sigma)
+        * loc.gaussian(rot2_err, 0.0, loc.odom_rot_sigma)
+    )
+
+    return float(prob)</code></pre>
+
+                                    <h3 class="mt-5 text-start">Prediction Step of the Bayes Filter</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In the prediction step, I looped over the discrete grid and accumulated transition probabilities into <code>bel_bar</code>. To reduce computation time, I skipped states whose prior belief was smaller than <code>0.0001</code>. I also normalized <code>bel_bar</code> after the loop.
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-python">def prediction_step(cur_odom, prev_odom):
+    """ Prediction step of the Bayes Filter.
+    Update the probabilities in loc.bel_bar based on loc.bel from the previous time step and the odometry motion model.
+
+    Args:
+        cur_odom  ([Pose]): Current Pose
+        prev_odom ([Pose]): Previous Pose
+    """
+    u = compute_control(cur_odom, prev_odom)
+
+    x_cells = mapper.MAX_CELLS_X
+    y_cells = mapper.MAX_CELLS_Y
+    a_cells = mapper.MAX_CELLS_A
+
+    loc.bel_bar = np.zeros_like(loc.bel, dtype=float)
+
+    for prev_x in range(x_cells):
+        for prev_y in range(y_cells):
+            for prev_a in range(a_cells):
+                prev_prob = loc.bel[prev_x, prev_y, prev_a]
+                if prev_prob < 0.0001:
+                    continue
+
+                prev_pose = mapper.from_map(prev_x, prev_y, prev_a)
+
+                for cur_x in range(x_cells):
+                    for cur_y in range(y_cells):
+                        for cur_a in range(a_cells):
+                            current_pose = mapper.from_map(cur_x, cur_y, cur_a)
+                            transition_prob = odom_motion_model(current_pose, prev_pose, u)
+                            loc.bel_bar[cur_x, cur_y, cur_a] += prev_prob * transition_prob
+
+    bel_bar_sum = np.sum(loc.bel_bar)
+    if bel_bar_sum > 0.0:
+        loc.bel_bar /= bel_bar_sum</code></pre>
+
+                                    <h3 class="mt-5 text-start">Sensor Model \( P(z \mid x) \)</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The sensor model used Gaussian likelihoods for the 18 range observations collected during the observation loop. For each grid state, I compared the expected observations with the measured data and computed the likelihood of each beam.
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-python">def sensor_model(obs):
+    """ This is the equivalent of p(z|x).
+
+
+    Args:
+        obs ([ndarray]): A 1D array of expected sensor observations for a specific pose in the map
+
+    Returns:
+        [ndarray]: Returns a 1D array of size 18 (=loc.OBS_PER_CELL) with the likelihoods of each individual sensor measurement
+    """
+    range_data = np.squeeze(loc.obs_range_data)
+    prob_array = np.zeros(mapper.OBS_PER_CELL)
+
+    for i in range(mapper.OBS_PER_CELL):
+        prob_array[i] = loc.gaussian(obs[i], range_data[i], loc.sensor_sigma)
+
+    return prob_array</code></pre>
+
+                                    <h3 class="mt-5 text-start">Update Step of the Bayes Filter</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The update step multiplies the prior <code>bel_bar</code> by the sensor likelihood and then normalizes the result. Normalization was necessary for both <code>bel</code> and <code>bel_bar</code>, otherwise the values would not remain a valid probability distribution.
+                                    </p>
+
+                                    <pre class="report-code-block"><code class="language-python">def update_step():
+    """ Update step of the Bayes Filter.
+    Update the probabilities in loc.bel based on loc.bel_bar and the sensor model.
+    """
+    x_cells = mapper.MAX_CELLS_X
+    y_cells = mapper.MAX_CELLS_Y
+    a_cells = mapper.MAX_CELLS_A
+
+    loc.bel = np.zeros_like(loc.bel_bar, dtype=float)
+
+    for x in range(x_cells):
+        for y in range(y_cells):
+            for a in range(a_cells):
+                obs = mapper.get_views(x, y, a)
+                prob_array = sensor_model(obs)
+                loc.bel[x, y, a] = np.prod(prob_array) * loc.bel_bar[x, y, a]
+
+    bel_sum = np.sum(loc.bel)
+    if bel_sum > 0.0:
+        loc.bel /= bel_sum
+    else:
+        loc.bel = np.copy(loc.bel_bar)</code></pre>
+
+                                    <h3 class="mt-5 text-start">Comparison / Results</h3>
+
+                                    <div class="report-video-frame">
+                                        <iframe src="https://www.youtube.com/embed/-LxSBoJEPX4" title="Run without Bayes Filter" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                    </div>
+
+                                    <p class="mb-4 mt-4" style="text-align: justify;">
+                                    Without Bayes Filter, odometry drift is clearly visible. The estimated trajectory gradually deviates from the robot&rsquo;s true position, and the motion becomes less reliable over time because the error keeps accumulating.
+                                    </p>
+
+                                    <div class="report-video-frame">
+                                        <iframe src="https://www.youtube.com/embed/WK4NMIXqazA" title="Run with Bayes Filter" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                    </div>
+
+                                    <p class="mb-4 mt-4" style="text-align: justify;">
+                                    With Bayes Filter, the belief trajectory is much closer to ground truth, and localization is more stable. The most probable state after each iteration gives a reasonable estimate of the robot pose, especially when the robot is near walls or other distinctive parts of the map where the range observations are more informative.
+                                    </p>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The method still has limitations. If observations are not distinctive enough, if the grid resolution is coarse, or if odometry error becomes too large, the estimated pose can still drift or converge to a nearby but incorrect state. Overall, the filter works best when motion and observation information complement each other.
+                                    </p>
                                 </div>
                             </div>
                         </div>

@@ -11094,3 +11094,16 @@ html {
   display: block;
   line-height: 1.55;
 }
+
+.report-video-frame {
+  width: min(100%, 860px);
+  aspect-ratio: 16 / 9;
+  margin: 0 0 1.5rem 0;
+}
+
+.report-video-frame iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
