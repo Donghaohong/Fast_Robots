@@ -169,6 +169,15 @@
                             <img class="img-fluid" src="assets/img/portfolio/Lab10.jpg" alt="Lab 10 Cover" />
                         </div>
                     </div>
+                    <!-- Portfolio Item 11-->
+                    <div class="col-md-6 col-lg-4 mt-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal11">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio/Lab11.jpg" alt="Lab 11 Cover" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -3610,6 +3619,189 @@ def make_T(x_mm, y_mm, theta_deg):
                                     <p class="mb-4" style="text-align: justify;">
                                     The method still has limitations. If observations are not distinctive enough, if the grid resolution is coarse, or if odometry error becomes too large, the estimated pose can still drift or converge to a nearby but incorrect state. Overall, the filter works best when motion and observation information complement each other.
                                     </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 11-->
+        <div class="portfolio-modal modal fade" id="portfolioModal11" tabindex="-1" aria-labelledby="portfolioModal11" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 11: Localization on the Real Robot</h2>
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Objective</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The goal of this lab is to run Bayes-filter localization on the real robot and compare the real-robot results with the simulator.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Grid Localization</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The plot below shows the simulation result from <code>lab11_sim.ipynb</code>. The blue trajectory represents the belief, the red trajectory represents odometry, and the green trajectory represents ground truth. As in the simulator, the belief remains much closer to the ground-truth path than raw odometry alone, which provides a useful baseline before moving to the real robot.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/sim_plot.png" alt="Lab 11 simulation result">
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Jupyter Notebook Implementation</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    For the notebook side, I implemented <code>RealRobot.perform_observation_loop()</code>. This function commands the robot to perform a full in-place scan while collecting ToF measurements every 20 degrees, and then returns the readings as NumPy column arrays for the localization module.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/code_observation_loop.png" alt="Lab 11 perform observation loop code">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The function sends <code>START_MAP_SCAN</code> to the robot and waits until all 18 readings have been received. The command string sets the step size, number of observations, and the PID gains used during the observation loop.
+                                    </p>
+
+                                    <div class="row text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/code_notif_handler.png" alt="Lab 11 notification handler and async localization code">
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    I also added a BLE notification handler to receive the data streamed back from the robot. Since the observation data is collected through asynchronous BLE callbacks, I converted <code>get_observation_data()</code> into an async function and called it with <code>await</code> in the notebook.
+                                    </p>
+
+<pre class="report-code-block"><code class="language-python">cmdr.reset_plotter()
+loc.init_grid_beliefs()
+await loc.get_observation_data()
+loc.update_step()
+loc.plot_update_step_data(plot_data=True)
+cmdr.plot_gt(5/3.281, 3/3.281)</code></pre>
+
+                                    <p class="mb-4" style="text-align: justify;">
+                                    For each marked pose, I reset the plotter, initialized a uniform belief, executed one full observation loop, ran a single update step, and then manually plotted the measured ground-truth position. Since the marked poses in the lab are specified in feet while the plotter expects meters, I converted each coordinate by dividing by <code>3.281</code>.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Robot-Side Scan Direction</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The handout requires the observation loop to move in the counter-clockwise direction, with the first measurement taken at the robot&rsquo;s current heading. My Lab 9 scan code originally incremented the setpoints in the opposite direction, so for Lab 11 I changed the firmware setpoint generation to step through decreasing yaw targets. I kept the rest of the scan state machine unchanged.
+                                    </p>
+
+<pre class="report-code-block"><code class="language-cpp">void set_map_target_for_step(int sample_idx) {
+    map_scan_target_yaw_deg =
+        wrap_angle_deg(map_scan_start_yaw_deg - sample_idx * map_scan_step_deg);
+    reset_map_turn_controller();
+}</code></pre>
+
+                                    <h3 class="mt-5 text-start">Results Summary</h3>
+
+                                    <div class="table-responsive mb-4">
+                                        <table class="table table-bordered text-start">
+                                            <thead>
+                                                <tr>
+                                                    <th>Marked Pose (ft)</th>
+                                                    <th>Ground Truth (m)</th>
+                                                    <th>Belief (m, deg)</th>
+                                                    <th>Position Error</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>(-3, -2, 0)</td>
+                                                    <td>(-0.914, -0.610)</td>
+                                                    <td>(-0.914, -0.610, -70)</td>
+                                                    <td>0.000 m</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>(0, 3, 0)</td>
+                                                    <td>(0.000, 0.914)</td>
+                                                    <td>(0.000, 0.914, -90)</td>
+                                                    <td>0.000 m</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>(5, -3, 0)</td>
+                                                    <td>(1.524, -0.914)</td>
+                                                    <td>(1.219, -1.219, -90)</td>
+                                                    <td>0.431 m</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>(5, 3, 0)</td>
+                                                    <td>(1.524, 0.914)</td>
+                                                    <td>(1.524, 0.610, -90)</td>
+                                                    <td>0.304 m</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">(0, 3)</h4>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    This was one of the cleanest trials. The belief returned by the update step was <code>(0.000, 0.914, -90)</code>, which matches the ground-truth position exactly in x and y. In the plot, the blue and green points lie on top of each other, so only one point is visually obvious. This suggests that the observation loop produced a very distinctive signature at this pose.
+                                    </p>
+                                    <div class="row text-center">
+                                        <div class="col-lg-6 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/pose_0_3_plot.png" alt="Lab 11 result at pose (0,3)">
+                                        </div>
+                                        <div class="col-lg-6 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/pose_0_3_log.png" alt="Lab 11 log output at pose (0,3)">
+                                        </div>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">(-3, -2)</h4>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    This marked pose also localized very well. The belief was <code>(-0.914, -0.610, -70)</code>, so the position matched the measured ground truth exactly even though the heading estimate was offset. The overlap between the belief and the ground truth again makes the plot appear as if it contains only one point. Among the four positions, this pose and <code>(0,3)</code> were the most reliable in translational accuracy.
+                                    </p>
+                                    <div class="row text-center">
+                                        <div class="col-lg-6 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/pose_neg3_neg2_plot.png" alt="Lab 11 result at pose (-3,-2)">
+                                        </div>
+                                        <div class="col-lg-6 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/pose_neg3_neg2_log.png" alt="Lab 11 log output at pose (-3,-2)">
+                                        </div>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">(5, 3)</h4>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    At <code>(5, 3)</code>, the x coordinate localized correctly, but the y coordinate was biased downward by about 0.30 m. The result is still in the correct region of the map and close to the correct wall, but it is not as precise as the two left-side trials. This suggests that the right side of the map is somewhat less distinctive under a single update-only scan.
+                                    </p>
+                                    <div class="row text-center">
+                                        <div class="col-lg-6 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/pose_5_3_plot.png" alt="Lab 11 result at pose (5,3)">
+                                        </div>
+                                        <div class="col-lg-6 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/pose_5_3_log.png" alt="Lab 11 log output at pose (5,3)">
+                                        </div>
+                                    </div>
+
+                                    <h4 class="mt-5 text-start">(5, -3)</h4>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    This was the weakest of the four marked poses. The localized belief <code>(1.219, -1.219, -90)</code> still landed in the bottom-right portion of the map, but it shifted diagonally inward from the measured ground truth by about 0.43 m. Since Lab 11 uses only a single update step on real data, this kind of ambiguity is not surprising when two regions of the map have somewhat similar range structure.
+                                    </p>
+                                    <div class="row text-center">
+                                        <div class="col-lg-6 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/pose_5_neg3_plot.png" alt="Lab 11 result at pose (5,-3)">
+                                        </div>
+                                        <div class="col-lg-6 mb-4">
+                                            <img class="img-fluid rounded" src="assets/img/lab11/pose_5_neg3_log.png" alt="Lab 11 log output at pose (5,-3)">
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">References</h3>
+                                    <ul class="text-start">
+                                        <li>I referenced Katherine Hsu&rsquo;s Fast Robots website while organizing this write-up.</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
