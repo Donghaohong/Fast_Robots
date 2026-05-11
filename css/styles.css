@@ -11107,3 +11107,23 @@ html {
   display: block;
   border: 0;
 }
+
+.lab12-video-portrait {
+  width: min(100%, 349px);
+  aspect-ratio: 349 / 620;
+  margin: 0 auto 1rem auto;
+}
+
+.lab12-video-landscape {
+  width: min(100%, 988px);
+  aspect-ratio: 16 / 9;
+  margin: 0 auto 1rem auto;
+}
+
+.lab12-video-portrait iframe,
+.lab12-video-landscape iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}

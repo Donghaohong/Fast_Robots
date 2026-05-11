@@ -178,6 +178,15 @@
                             <img class="img-fluid" src="assets/img/portfolio/Lab11.jpg" alt="Lab 11 Cover" />
                         </div>
                     </div>
+                    <!-- Portfolio Item 12-->
+                    <div class="col-md-6 col-lg-4 mt-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal12">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio/Lab12.jpg" alt="Lab 12 Cover" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -3802,6 +3811,164 @@ cmdr.plot_gt(5/3.281, 3/3.281)</code></pre>
                                     <ul class="text-start">
                                         <li>I referenced Katherine Hsu&rsquo;s Fast Robots website while organizing this write-up.</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Modal 12-->
+        <div class="portfolio-modal modal fade" id="portfolioModal12" tabindex="-1" aria-labelledby="portfolioModal12" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-10">
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 12: Path Planning and Execution</h2>
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Objective</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The goal of Lab 12 was to make the robot navigate through the course waypoints as quickly and accurately as possible. I used the given map and waypoint sequence, but instead of running a full replanning/localization loop during the final demo, I implemented a preset waypoint executor that was more reliable for my hardware.
+                                    </p>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The lab was intentionally open-ended, so I considered two directions. The first was a full local-planning pipeline that would repeatedly scan, localize, and replan. This was attractive because it would reduce accumulated error, but each scan took a long time and introduced more failure modes during the live run. The second direction was a simpler turn-and-drive strategy using the known waypoint list. I chose the second approach for the final demonstration because the map and waypoints were fixed, and the robot became much more repeatable after tuning the turn controller and drive timing.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Waypoint Path</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The robot followed the required path in feet: <code>(-4,-3)</code>, <code>(-2,-1)</code>, <code>(1,-1)</code>, <code>(2,-3)</code>, <code>(5,-3)</code>, <code>(5,-2)</code>, <code>(5,3)</code>, <code>(0,3)</code>, and <code>(0,0)</code>. The map below uses the wall geometry from <code>world.yaml</code> and overlays the preset route.
+                                    </p>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The first segment starts diagonally, so I manually placed the robot at <code>(-4,-3)</code> with an initial heading of about 45 degrees. After that, every segment is represented as a relative turn followed by a straight drive. This matched the turn-go-turn procedure from the odometry model, but I skipped the final turn at each waypoint because the next segment's heading computation already handles the required orientation change.
+                                    </p>
+                                    <img class="img-fluid rounded mb-4" src="assets/img/lab12/preset_path_real_map.svg" alt="Lab 12 preset path on real map">
+
+<pre class="report-code-block"><code class="language-python">PRESET_PATH_FT = [
+    (-4, -3), (-2, -1), (1, -1), (2, -3),
+    (5, -3), (5, -2), (5, 3), (0, 3), (0, 0)
+]
+START_HEADING_DEG = 45.0</code></pre>
+
+                                    <h3 class="mt-5 text-start">Offboard Planning, Onboard Execution</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The laptop handled the high-level path computation in Jupyter. For each pair of waypoints, Python computed the segment heading, relative turn angle, distance, and drive time. The Arduino only executed motion primitives sent over BLE. This kept the onboard code simple and made tuning faster.
+                                    </p>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    This split was useful during testing. When a segment overshot or a turn was too aggressive, I could change the notebook parameters and rerun only one segment without reflashing the robot. The Arduino firmware only needed to support reliable primitive commands, while the notebook handled path sequencing, logging, and emergency stop commands.
+                                    </p>
+
+<pre class="report-code-block"><code class="language-python">def preset_segments(path, start_heading_deg, ms_per_ft):
+    current_heading = start_heading_deg
+    for start, goal in zip(path, path[1:]):
+        dx, dy = goal[0] - start[0], goal[1] - start[1]
+        distance_ft = math.hypot(dx, dy)
+        desired_heading = wrap_deg(math.degrees(math.atan2(dy, dx)))
+        turn_delta = wrap_deg(desired_heading - current_heading)
+        duration_ms = int(round(distance_ft * ms_per_ft))
+        current_heading = desired_heading</code></pre>
+
+                                    <h3 class="mt-5 text-start">Motion Primitives</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    I added four Lab 12 BLE commands: <code>TURN_REL_DEG</code>, <code>DRIVE_CELL_MM</code>, <code>STOP_NAV</code>, and <code>SEND_NAV_LOG</code>. Turning is closed-loop using the DMP yaw estimate. Straight driving is mostly open-loop: the distance is converted to a calibrated motor runtime using <code>ms_per_ft</code>. ToF is used as a safety stop, not as the primary distance controller.
+                                    </p>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The turn command is relative rather than absolute. For example, a command of 45 degrees means “turn 45 degrees from the current DMP yaw,” not “turn to global yaw 45.” The robot reports <code>TURN_STARTED</code> with the start yaw and target yaw, then reports <code>TURN_DONE</code> when the yaw error is small and stable. For driving, the firmware records the starting yaw and can apply a small heading correction, but in the final route I relied mainly on low speed and timed motion for distance repeatability.
+                                    </p>
+
+<pre class="report-code-block"><code class="language-python">def run_preset_path(base_pwm=46, ms_per_ft=750,
+                    front_stop_mm=10, turn_timeout_ms=8000,
+                    turn_kp=0.8, turn_ki=0, turn_kd=0.5):
+    cmd_delta = DMP_DELTA_SIGN * seg["turn_delta_deg"]
+    send_turn(cmd_delta, turn_timeout_ms, turn_kp, turn_ki, turn_kd)
+    drive_cell(seg["distance_mm"], base_pwm,
+               int(seg["distance_ft"] * ms_per_ft), heading_kp, front_stop_mm)</code></pre>
+
+<pre class="report-code-block"><code class="language-cpp">nav_target_yaw_deg = wrap_angle_deg(nav_start_yaw_deg + delta_deg);
+if (fabs(yaw_error_deg) &lt;= NAV_TURN_TOL_DEG) {
+    if (nav_turn_stable_since_ms == 0) nav_turn_stable_since_ms = now;
+}
+turn_stable_done = (now - nav_turn_stable_since_ms) &gt;= NAV_TURN_STABLE_MS;</code></pre>
+
+                                    <h3 class="mt-5 text-start">Tuning</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The largest tuning issue was overshoot during turns. The robot could enter the yaw tolerance and still coast farther after the motors stopped. To fix this, I lowered the turn PWM range to <code>100-130</code> and required the yaw error to stay within 3 degrees for 180 ms. For straight driving, I empirically tuned <code>base_pwm=46</code> and <code>ms_per_ft=750</code>. This reduced accumulated distance error enough to complete the full route.
+                                    </p>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    I also reduced the amount of data requested during the full run. Earlier versions fetched the full navigation log after every turn and drive, which added a noticeable delay between segments. For the final run, <code>collect_nav_log</code> was disabled by default, so the robot only waited for the compact status messages such as <code>TURN_DONE</code> and <code>DRIVE_DONE</code>. This made the path execution smoother while still writing a JSONL summary for the report.
+                                    </p>
+
+                                    <h3 class="mt-5 text-start">Final Run Parameters</h3>
+                                    <div class="table-responsive mb-4">
+                                        <table class="table table-bordered text-start">
+                                            <thead><tr><th>Parameter</th><th>Value</th><th>Purpose</th></tr></thead>
+                                            <tbody>
+                                                <tr><td><code>base_pwm</code></td><td>46</td><td>Slow straight driving with enough torque</td></tr>
+                                                <tr><td><code>ms_per_ft</code></td><td>750</td><td>Open-loop distance calibration</td></tr>
+                                                <tr><td><code>front_stop_mm</code></td><td>10</td><td>Emergency stop threshold kept low for final route</td></tr>
+                                                <tr><td><code>turn_kp, turn_ki, turn_kd</code></td><td>0.8, 0, 0.5</td><td>DMP yaw PID tuning</td></tr>
+                                                <tr><td><code>turn_timeout_ms</code></td><td>8000</td><td>Allows slower stable turns</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Execution Summary</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    In the best logged run, all eight motion segments completed with <code>DRIVE_DONE</code>. The longest straight sections were the 5 ft runs from <code>(5,-2)</code> to <code>(5,3)</code> and from <code>(5,3)</code> to <code>(0,3)</code>, each using 3750 ms of drive time.
+                                    </p>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The log confirms that the mission reached the final waypoint sequence without triggering a ToF stop or turn timeout in the successful run. The total route is still sensitive to placement error at the start, because every straight segment is timed. However, using slower motion reduced sliding after stops and made the later waypoints more consistent than the faster early trials.
+                                    </p>
+                                    <div class="table-responsive mb-4">
+                                        <table class="table table-bordered text-start">
+                                            <thead><tr><th>Segment</th><th>Distance</th><th>Drive Time</th><th>Status</th></tr></thead>
+                                            <tbody>
+                                                <tr><td>1: (-4,-3) to (-2,-1)</td><td>2.828 ft</td><td>2121 ms</td><td>Done</td></tr>
+                                                <tr><td>2: (-2,-1) to (1,-1)</td><td>3.000 ft</td><td>2250 ms</td><td>Done</td></tr>
+                                                <tr><td>3: (1,-1) to (2,-3)</td><td>2.236 ft</td><td>1677 ms</td><td>Done</td></tr>
+                                                <tr><td>4: (2,-3) to (5,-3)</td><td>3.000 ft</td><td>2250 ms</td><td>Done</td></tr>
+                                                <tr><td>5: (5,-3) to (5,-2)</td><td>1.000 ft</td><td>750 ms</td><td>Done</td></tr>
+                                                <tr><td>6: (5,-2) to (5,3)</td><td>5.000 ft</td><td>3750 ms</td><td>Done</td></tr>
+                                                <tr><td>7: (5,3) to (0,3)</td><td>5.000 ft</td><td>3750 ms</td><td>Done</td></tr>
+                                                <tr><td>8: (0,3) to (0,0)</td><td>3.000 ft</td><td>2250 ms</td><td>Done</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Run Videos and Analysis</h3>
+                                    <div class="row justify-content-center text-start">
+                                        <div class="col-lg-6 mb-4 text-center">
+                                            <div class="lab12-video-portrait"><iframe src="https://www.youtube.com/embed/OVE4CKjnb1w" title="Run 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                            <p style="text-align: justify;">Run 1 shows the early behavior of the preset path. The robot follows the route structure, but small straight-line distance errors begin to accumulate because the drive distance is still open-loop.</p>
+                                        </div>
+                                        <div class="col-lg-6 mb-4 text-center">
+                                            <div class="lab12-video-portrait"><iframe src="https://www.youtube.com/embed/8rGh5KhItH4" title="Run 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                            <p style="text-align: justify;">Run 2 shows another complete attempt with the same streamlined command flow. The robot pauses only briefly between segments because the full navigation log is not requested during normal execution, and the tuned turn controller keeps the heading changes controlled.</p>
+                                        </div>
+                                        <div class="col-12 mb-4 text-center">
+                                            <div class="lab12-video-landscape"><iframe src="https://www.youtube.com/embed/uiuMFJ1xlfU" title="Run 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                            <p style="text-align: justify;">Run 3 is another representative run of the same implementation. Like the other trials, it uses the Jupyter-generated segment commands, the relative-yaw turn primitive, and the calibrated time model for straight driving.</p>
+                                        </div>
+                                        <div class="col-lg-6 mb-4 text-center">
+                                            <div class="lab12-video-portrait"><iframe src="https://www.youtube.com/embed/kfpBEbK4r1Y" title="Run 4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                            <p style="text-align: justify;">Run 4 is the final demonstration run. The robot reaches the waypoint sequence using closed-loop turns and calibrated open-loop drives. This is the run that best represents the final implementation: simple offboard planning, reliable onboard yaw control, and conservative straight-line speed.</p>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-5 text-start">Limitations</h3>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    The main limitation is that straight-line distance is not closed-loop. Without wheel encoders, the robot cannot directly measure how far it traveled, so battery level and floor friction can still change the result. However, the combination of reliable yaw turns, conservative speed, and calibrated drive timing was sufficient for a complete Lab 12 run.
+                                    </p>
+                                    <p class="mb-4" style="text-align: justify;">
+                                    A more advanced version would add correction after selected waypoints. One option would be to use ToF measurements as a local landmark when the robot faces a known wall, or to run a Lab 11 localization scan after major turns. I did not use this in the final run because the extra scan time made the demonstration less robust, but it would be the natural next step for reducing accumulated open-loop drift.
+                                    </p>
                                 </div>
                             </div>
                         </div>
